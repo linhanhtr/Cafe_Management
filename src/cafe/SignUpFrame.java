@@ -2,15 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 package cafe;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import model.AdminDao;
-
-
 /**
  *
  * @author Dell
@@ -21,9 +18,9 @@ public class SignUpFrame extends javax.swing.JFrame {
      * Creates new form SignUpFrame
      */
     AdminDao dao = new AdminDao();
-    int xx, xy;
+    int maxRow = dao.getMaxRowAdminTable();
 
-    public SignUpFrame() {
+    public SignUpFrame(){
         initComponents();
         TextField1.setText(String.valueOf(dao.getMaxRowAdminTable()));
     }
@@ -213,6 +210,28 @@ public class SignUpFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        if(isEmpty()) {
+            String username = TextField2.getText().trim();
+            if(! dao.isAdminNameExist(username)){
+                Admin admin = new Admin();
+                admin.setId(dao.getMaxRowAdminTable());
+                admin.setUsername(username);
+                admin.setPassword(String.valueOf(jPasswordField1.getPassword()));
+                admin.setsQues(jComboBox1.getSelectedItem().toString());
+                admin.setAns(TextField4.getText().trim());
+                
+                if(dao.insert(admin)) {
+                    JOptionPane.showMessageDialog(this, "Admin Successuly Created...");
+                    new LoginFrame().setVisible(true);
+                    setVisible(false);
+                } else{
+                    JOptionPane.showMessageDialog(this, "Failed!", "Warning!", 2);
+
+                }
+            } else{
+                JOptionPane.showMessageDialog(this, "Username already exists", "Warning!", 2);
+            }
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked

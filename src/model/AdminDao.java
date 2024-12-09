@@ -15,6 +15,7 @@ import java.util.logging.Level;
  *
  * @author Dell
  */
+
 public class AdminDao{
     
     Connection con = MyConnection.getConnection();
@@ -24,20 +25,47 @@ public class AdminDao{
     
     public int getMaxRowAdminTable() {
         int row = 0;
-        
-        st = con.createStatement();
-        rs = st.executeQuery("select max(id) from admin");
-        
-        whilw(rs.next())
-        {
-            row = rs.getInt(1);
+        try{
+            st = con.createStatement();
+            rs = st.executeQuery("select max(id) from admin");
+            while(rs.next()){
+                row = rs.getInt(1);
         }
-    } catch (SQLEXception ex) {
-    Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+        Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
 
     }
     return row + 1;
     }
 
+    public boolean isAdminNameExist (String username){
+        try {
+            ps = con.prepareStatement("select * from admin where xusername = ?");
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
     
+    public boolean insert(Admin admin) {
+        String sql = "insert into admin (id, username, password, s_ques, ans) values (?,?,?,?,?)";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, admin.getId());
+            ps.setString(2, admin.getUsername());
+            ps.setString(3, admin.getPassword());
+            ps.setString(4, admin.getsQues());
+            ps.setString(5, admin.getAns());
+            
+            return ps.executeUpdate() > 0;
+        } catch (Exception ex) {
+            Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return false;
+    }
 }

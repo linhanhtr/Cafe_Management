@@ -26,7 +26,7 @@ public class MyConnection {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url,username,password);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ""+ex, "", JOptionPane.WARNING MESSAGE);
+            JOptionPane.showMessageDialog(null, ""+ex, "", JOptionPane.WARNING_MESSAGE);
         }
         return con;
     }

@@ -42,6 +42,7 @@ public class OrderFrame extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(158, 111, 78));
 
         jPanel1.setBackground(new java.awt.Color(158, 111, 78));
 
