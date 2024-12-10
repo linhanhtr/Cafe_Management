@@ -4,11 +4,18 @@
  */
 package cafe;
 
+import cafe.LoginFrame;
+import cafe.SignUpFrame;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+import javax.swing.JTextField;
+import javax.swing.*;
+    private void setLocation(int i, int i0) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 /**
  *
  * @author My-Laptop
@@ -224,15 +231,15 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
         jPasswordField1.setEchoChar((char) 0);
-        jLabel10.setVisible(false);
-        jLabel2.setVisible(true);
+        jLabel8.setVisible(false);
+        jLabel9.setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         // TODO add your handling code here:
         jPasswordField1.setEchoChar((char) '*');
-        jLabel10.setVisible(true);
-        jLabel2.setVisible(false);
+        jLabel8.setVisible(true);
+        jLabel9.setVisible(false);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jTextField6KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyTyped
@@ -240,7 +247,7 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
         char input = evt.getKeyChar();
         if (!(input < '0' || input > '9') && input != '\b') {
             evt.consume();
-            JOptionPane.showMessageDialog(this, "Username doesn't contain any number!", "Warning", 2);
+            JOptionPane.showMessageDialog(null, "Username doesn't contain any number!", "Warning", 2);
         }
     }//GEN-LAST:event_jTextField6KeyTyped
 
@@ -249,7 +256,8 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
         for (double i = 0.1; i <= 1.0; i += 0.1) {
             String s = "" + i;
             float f = Float.parseFloat(s);
-            this.setOpacity(f);
+            JFrame frame = new JFrame();
+            frame.setOpacity(0.5f);
             try {
                 Thread.sleep(40);
 
@@ -260,24 +268,28 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
-        // TODO add your handling code here:
-        xx = evt.getX();
-        xy = evt.getY();
+    // TODO add your handling code here:
+    int xx = evt.getX();
+    int xy = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
         // TODO add your handling code here:
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
+    int xx = 0;
+    int xy = 0;
         this.setLocation(x - xx, y - xy);
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
         if (jTextField6.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Username is required", "Warning", 2);
+            JOptionPane.showMessageDialog(null, "Username is required", "Warning", 2);
         } else {
+            AdminDao dao = new AdminDao(); 
             if (dao.getSecurity(jTextField6.getText())) {
+                Color edit = null;
                 jTextField7.setBackground(edit);
                 jTextField8.setBackground(edit);
                 jPasswordField1.setBackground(edit);
@@ -286,7 +298,7 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
                 jTextField7.setEditable(true);
                 jButton3.setEnabled(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Username doesn't exist", "Warning", 2);
+                JOptionPane.showMessageDialog(null, "Username doesn't exist", "Warning", 2);
             }
         }
     }//GEN-LAST:event_jLabel2MouseClicked
@@ -296,12 +308,13 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField8ActionPerformed
 
     public boolean isEmpty() {
+    JTextField TextField4 = new JTextField();
         if (TextField4.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Answer question is required", "Warning", 2);
+            JOptionPane.showMessageDialog(null, "Answer question is required", "Warning", 2);
             return false;
         }
         if (String.valueOf(jPasswordField1.getPassword()).isEmpty()) {
-            JOptionPane.showMessageDialog(this, "New password is required", "Warning", 2);
+            JOptionPane.showMessageDialog(null, "New password is required", "Warning", 2);
             return false;
         }
         return true;
@@ -335,12 +348,33 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ForgotPasswordFrame().setVisible(true);
-            }
+        public class ForgotPasswordFrame extends JFrame {
+        public ForgotPasswordFrame() {
+        // Thiết lập cửa sổ
+        setTitle("Forgot Password");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Thêm các thành phần giao diện (ví dụ: trường văn bản, nút)
+        JTextField emailField = new JTextField(20);
+        JButton submitButton = new JButton("Submit");
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Enter your email:"));
+        panel.add(emailField);
+        panel.add(submitButton);
+
+        setContentPane(panel);  // Đặt panel làm nội dung chính của cửa sổ
+    }
+
+    public static void main(String[] args) {
+        // Chạy mã trên Event Dispatch Thread
+        java.awt.EventQueue.invokeLater(() -> {
+            new ForgotPasswordFrame().setVisible(true);  // Hiển thị cửa sổ
         });
     }
+}
+            
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
@@ -360,4 +394,4 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
     public static javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
-}
+
