@@ -207,6 +207,19 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        if(isEmpty()) { 
+            String username = jTextField6.getText();
+            String ans = jTextField8.getText();
+            if (dao.getAns(username, ans)) {
+                String password = String.valueOf(jPasswordField1.getPassword());
+                dao.setPassword(username, password);
+                 JOptionPane.showMessageDialog(this, "Password update");
+                 new LoginFrame().setVisible(true);
+                 setVisible(false);
+}           } else {
+                JOptionPane.showMessageDialog(this, "Security answer didn't match");
+            }                    
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -262,11 +275,21 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
-        if (jTextField6.getText().isEmpty()){
+        if (jTextField6.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Username is required", "Warning", 2);
-        }else{
-            
-        }    
+        } else {
+            if (dao.getSecurity(jTextField6.getText())) {
+                jTextField7.setBackground(edit);
+                jTextField8.setBackground(edit);
+                jPasswordField1.setBackground(edit);
+                jPasswordField1.setEnabled(true);
+                jTextField8.setEditable(true);
+                jTextField7.setEditable(true);
+                jButton3.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Username doesn't exist", "Warning", 2);
+            }
+        }
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
