@@ -76,4 +76,16 @@ public class Dao {
             return false;
         }
     }
+    
+    public boolean delete(Product product) {
+        try {
+            ps = con.prepareStatement("delete from product where id = ?");
+            ps.setInt(1, product.getId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
 }
+
