@@ -9,15 +9,17 @@ import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
- * @author tranlalinhanh
+ * @author My-Laptop
  */
 public class Dao {
- 
+
     Connection con = MyConnection.getConnection();
     PreparedStatement ps;
     Statement st;
@@ -58,6 +60,20 @@ public class Dao {
             }
         } catch (Exception ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public boolean update(Product product) {
+        String sql = "update product set name = ?, price = ?, where id = ?";
+        
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setInt(3, product.getId());
+            return ps.executeUpdate() > 0;
+        } catch (Exception ex) {
+            return false;
         }
     }
 }
