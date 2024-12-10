@@ -17,7 +17,7 @@ import java.util.logging.Level;
  * @author Dell
  */
 
-public class AdminDao{
+public class AdminDao {
     
     Connection con = MyConnection.getConnection();
     PreparedStatement ps;
