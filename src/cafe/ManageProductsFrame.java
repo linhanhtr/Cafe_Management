@@ -19,17 +19,17 @@ import model.Dao;
  *
  * @author HP
  */
+
 public class ManageProductsFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form ManageProductsFrame
      */
-    
     int xx, xy;
     Dao dao = new Dao();
     DefaultTableModel model;
     int rowIndex;
-    
+
     public ManageProductsFrame() {
         initComponents();
         tableProduct();
@@ -205,35 +205,72 @@ public class ManageProductsFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(jTextField1.getText().isEmpty() && jTextField2.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this,"Please select a product","Warning",2);
-        } else{
-            Product product = new Product();
-            product.setId(Integer.parseInt(model.getValueAt(rowIndex,0).toString()));
-            product.setName(jTextField1.getText().trim());
-            product.setPrice(Double.parseDouble(jTextField2.getText().trim()));
-        }
+        if (jTextField1.getText().isEmpty() && jTextField2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a product", "Warning", 2);
+        } else {
+
+            try {
+                Product product = new Product();
+                product.setId(Integer.parseInt(model.getValueAt(rowIndex, 0).toString()));
+                product.setName(jTextField1.getText().trim());
+                product.setPrice(Double.parseDouble(jTextField2.getText().trim()));
+                if (dao.update(product)) {
+                    JOptionPane.showMessageDialog(this, "Product updated");
+                    jTable2.setModel(new DefaultTableModel(null, new Object[]{"ID", "Name", "Price", "Image"}));
+                    dao.getallProducts(jTable2);
+                    jTable2.getTableHeader().setReorderingAllowed(false);
+                    jTable2.getColumnModel().getColumn(3).setCellRenderer(new ManageProductsFrame.ImageRenderer());
+                    clear();
+
+            }
+        }catch (Exception e) {
+                 JOptionPane.showMessageDialog(this, ""+e, "Warning", 2);
+            }
+       }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        if (jTextField1.getText().isEmpty() && jTextField2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a product", "Warning", 2);
+        } else {
+
+            try {
+                Product product = new Product();
+                product.setId(Integer.parseInt(model.getValueAt(rowIndex, 0).toString()));
+                product.setName(jTextField1.getText().trim());
+                product.setPrice(Double.parseDouble(jTextField2.getText().trim()));
+                if (dao.delete(product)) {
+                    JOptionPane.showMessageDialog(this, "Product deleted");
+                    jTable2.setModel(new DefaultTableModel(null, new Object[]{"ID", "Name", "Price", "Image"}));
+                    dao.getallProducts(jTable2);
+                    jTable2.getTableHeader().setReorderingAllowed(false);
+                    jTable2.getColumnModel().getColumn(3).setCellRenderer(new ManageProductsFrame.ImageRenderer());
+                    clear();
+
+            }
+        }catch (Exception e) {
+                 JOptionPane.showMessageDialog(this, ""+e, "Warning", 2);
+            }
+       }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         for (double i = 0.1; i <= 1.0; i += 0.1) {
-        String s = "" + i;
-        float £ = Float.parseFloat (s) ;
-        this.setOpacity (£);
-        try {
-            Thread.sleep(40);
-        } catch (InterruptedException ex) {
-            Logger.getlogger(ManageProductsFrame.class.getName ()) .log (Level. SEVERE, null, ex);
+            String s = "" + i;
+            float £ = Float.parseFloat(s);
+            this.setOpacity(£);
+            try {
+                Thread.sleep(40);
+            } catch (InterruptedException ex) {
+                Logger.getlogger(ManageProductsFrame.class  
+.getName()).log(Level.SEVERE, null, ex);
     }//GEN-LAST:event_formWindowOpened
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         // TODO add your handling code here:
-        
+
         xx = evt.getX();
         xy = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
@@ -253,68 +290,70 @@ public class ManageProductsFrame extends javax.swing.JFrame {
         jTextField2.setText(model.getValueAt(rowIndex, 1).toString());
     }//GEN-LAST:event_jTable2MouseClicked
 
-    private void clear(){
+    private void clear() {
         jTextField1.setText(null);
         jTextField2.setText(null);
     }
-    
-    private void tableProduct () {
-        dao.getallProducts (jTable2);
+
+    private void tableProduct() {
+        dao.getallProducts(jTable2);
         model = (DefaultTableModel) jTable2.getModel();
         jTable2.setRowHeight(100);
         jTable2.setShowGrid(true);
-        jTable2.setGridColor (Color.black);
-        jTable2.setBackground (Color.white);
-        jTable2.setSelectionBackground (Color.gray);
-        jTable2.setModel (model);
-        jTable2.getTableHeader().setReorderingAllowed (false);
-        jTable2.getColumnModel().getColumn(3).setCellRenderer (new ManageProductsFrame.ImageRenderer());
+        jTable2.setGridColor(Color.black);
+        jTable2.setBackground(Color.white);
+        jTable2.setSelectionBackground(Color.gray);
+        jTable2.setModel(model);
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.getColumnModel().getColumn(3).setCellRenderer(new ManageProductsFrame.ImageRenderer());
     }
-    
+
     private class ImageRenderer extends DefaultTableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelect) {
-            JLabel jL = new JLabel();
-            byte[] bytes = (byte[]) value;
-            ImageIcon imageicon = new ImageIcon(new ImageIcon(bytes)).getImage().getScaledInstance();
-            jL.setIcon(imageicon);
-            return jL;
-        }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelect) {
+        JLabel jL = new JLabel();
+        byte[] bytes = (byte[]) value;
+        ImageIcon imageicon = new ImageIcon(new ImageIcon(bytes)).getImage().getScaledInstance();
+        jL.setIcon(imageicon);
+        return jL;
     }
+}
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageProductsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageProductsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageProductsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageProductsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ManageProductsFrame().setVisible(true);
-            }
-        });
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(ManageProductsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(ManageProductsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(ManageProductsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(ManageProductsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new ManageProductsFrame().setVisible(true);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
