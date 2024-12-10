@@ -209,6 +209,13 @@ public class AddProduct extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void clear() {
+        jTextField1.setText(null);
+        jTextField3.setText(null);
+        jLabel5.setText(null);
+        file = null;
+        
+    }
     /**
      * @param args the command line arguments
      */
