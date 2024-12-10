@@ -69,7 +69,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 jLabel4MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 28, 28));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 28, 28));
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 28)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
