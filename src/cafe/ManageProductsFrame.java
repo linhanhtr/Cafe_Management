@@ -4,6 +4,17 @@
  */
 package cafe;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import model.Dao;
+
 /**
  *
  * @author HP
@@ -13,8 +24,15 @@ public class ManageProductsFrame extends javax.swing.JFrame {
     /**
      * Creates new form ManageProductsFrame
      */
+    
+    int xx, xy;
+    Dao dao = new Dao();
+    DefaultTableModel model;
+    int rowIndex;
+    
     public ManageProductsFrame() {
         initComponents();
+        tableProduct();
     }
 
     /**
@@ -39,8 +57,23 @@ public class ManageProductsFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(158, 111, 78));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -60,6 +93,11 @@ public class ManageProductsFrame extends javax.swing.JFrame {
                 "ID", "Name", "Price", "Image"
             }
         ));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
@@ -167,12 +205,82 @@ public class ManageProductsFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if(jTextField1.getText().isEmpty() && jTextField2.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this,"Please select a product","Warning",2);
+        } else{
+            Product product = new Product();
+            product.setId(Integer.parseInt(model.getValueAt(rowIndex,0).toString()));
+            product.setName(jTextField1.getText().trim());
+            product.setPrice(Double.parseDouble(jTextField2.getText().trim()));
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        for (double i = 0.1; i <= 1.0; i += 0.1) {
+        String s = "" + i;
+        float £ = Float.parseFloat (s) ;
+        this.setOpacity (£);
+        try {
+            Thread.sleep(40);
+        } catch (InterruptedException ex) {
+            Logger.getlogger(ManageProductsFrame.class.getName ()) .log (Level. SEVERE, null, ex);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        // TODO add your handling code here:
+        
+        xx = evt.getX();
+        xy = evt.getY();
+    }//GEN-LAST:event_jPanel1MousePressed
+
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - xx, y - xy);
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        model = (DefaultTableModel) jTable2.getModel();
+        rowIndex = jTable2.getSelectedRow();
+        jTextField1.setText(model.getValueAt(rowIndex, 1).toString());
+        jTextField2.setText(model.getValueAt(rowIndex, 1).toString());
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void clear(){
+        jTextField1.setText(null);
+        jTextField2.setText(null);
+    }
+    
+    private void tableProduct () {
+        dao.getallProducts (jTable2);
+        model = (DefaultTableModel) jTable2.getModel();
+        jTable2.setRowHeight(100);
+        jTable2.setShowGrid(true);
+        jTable2.setGridColor (Color.black);
+        jTable2.setBackground (Color.white);
+        jTable2.setSelectionBackground (Color.gray);
+        jTable2.setModel (model);
+        jTable2.getTableHeader().setReorderingAllowed (false);
+        jTable2.getColumnModel().getColumn(3).setCellRenderer (new ManageProductsFrame.ImageRenderer());
+    }
+    
+    private class ImageRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelect) {
+            JLabel jL = new JLabel();
+            byte[] bytes = (byte[]) value;
+            ImageIcon imageicon = new ImageIcon(new ImageIcon(bytes)).getImage().getScaledInstance();
+            jL.setIcon(imageicon);
+            return jL;
+        }
+    }
     /**
      * @param args the command line arguments
      */
