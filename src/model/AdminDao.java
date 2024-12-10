@@ -108,7 +108,7 @@ public class AdminDao {
             ps.setString(1, username);
             rs = ps.executeQuery();
             if (rs.next()) {
-                String oldAns = rs.géttring(5);
+                String oldAns = rs.getString(5);
                 if (newAns.equals(oldAns)) {
                 return true;
             }
@@ -123,8 +123,8 @@ public class AdminDao {
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, password);
-            ps.setString(, username);
-            return ps.execteUpdate() > 0;
+            ps.setString(2, username);
+            return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
             return false;
         }
