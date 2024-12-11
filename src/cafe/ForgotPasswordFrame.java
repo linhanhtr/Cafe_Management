@@ -323,57 +323,29 @@ public class ForgotPasswordFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    public void main(String args[]) {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ForgotPasswordFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ForgotPasswordFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ForgotPasswordFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ForgotPasswordFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        public class ForgotPasswordFrame extends JFrame {
-        public ForgotPasswordFrame() {
-        // Thiết lập cửa sổ
-        setTitle("Forgot Password");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Thêm các thành phần giao diện (ví dụ: trường văn bản, nút)
-        JTextField emailField = new JTextField(20);
-        JButton submitButton = new JButton("Submit");
-
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Enter your email:"));
-        panel.add(emailField);
-        panel.add(submitButton);
-
-        setContentPane(panel);  // Đặt panel làm nội dung chính của cửa sổ
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(ForgotPasswordFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(ForgotPasswordFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(ForgotPasswordFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(ForgotPasswordFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
-
-    public static void main(String[] args) {
-        // Chạy mã trên Event Dispatch Thread
-        java.awt.EventQueue.invokeLater(() -> {
-            new ForgotPasswordFrame().setVisible(true);  // Hiển thị cửa sổ
-        });
+    
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(() -> {
+        new ForgotPasswordFrame().setVisible(true);  // Show window
+    });
     }
-}
             
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

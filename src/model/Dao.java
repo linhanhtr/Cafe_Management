@@ -86,6 +86,10 @@ public class Dao {
             return false;
         }
     }
+
+    public void getallProducts(JTable jTable2) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
     

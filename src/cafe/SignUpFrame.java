@@ -7,7 +7,7 @@ package cafe;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
-import model.AdminDao;
+import model.Admin;
 /**
  *
  * @author Dell
@@ -18,11 +18,20 @@ public class SignUpFrame extends javax.swing.JFrame {
      * Creates new form SignUpFrame
      */
     AdminDao dao = new AdminDao();
-    int maxRow = dao.getMaxRowAdminTable();
+    int maxRow; //= dao.getMaxRowAdminTable();
 
     public SignUpFrame(){
         initComponents();
-        TextField1.setText(String.valueOf(dao.getMaxRowAdminTable()));
+        try {
+            // Try to fetch the max row count from AdminDao
+            maxRow = dao.getMaxRowAdminTable();
+            TextField1.setText(String.valueOf(maxRow));
+        } catch (UnsupportedOperationException e) {
+            // Handle the exception and set a default value
+            maxRow = 0;
+            TextField1.setText("0");
+            JOptionPane.showMessageDialog(this, "Error: Admin table row retrieval not implemented.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     /**
@@ -250,14 +259,16 @@ public class SignUpFrame extends javax.swing.JFrame {
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         // TODO add your handling code here:
-        xx = evt.getX();
-        xy = evt.getY();
+        int xx = evt.getX();
+        int xy = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
         // TODO add your handling code here:
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
+        int xx = 0;
+        int xy = 0;
         this.setLocation(x - xx, y - xy);
     }//GEN-LAST:event_jPanel1MouseDragged
 
