@@ -87,5 +87,30 @@ public class Dao {
         }
     }
     
+    public void getallProducts(JTable table){
+        String sql = "select * from product order by id desc";
+         
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            
+            Object[] row;
+            
+            while(rs.next()){
+                row = new Object[4];
+                row [0] = rs.getInt(1);
+                row [1] = rs.getString(2);
+                row [2] = rs.getDouble(3);
+                row [3] = rs.getBytes(4);
+                model.addRow(row);
+            }
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Dao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
+    }
+    
 }
 
