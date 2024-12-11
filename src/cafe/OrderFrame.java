@@ -13,6 +13,10 @@ public class OrderFrame extends javax.swing.JFrame {
     /**
      * Creates new form OrderFrame
      */
+    int xx, xy;
+    Dao dao = new Dao();
+    DefaultTableModel model;
+    
     public OrderFrame() {
         initComponents();
     }
@@ -45,6 +49,11 @@ public class OrderFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(158, 111, 78));
 
         jPanel1.setBackground(new java.awt.Color(158, 111, 78));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -216,6 +225,10 @@ public class OrderFrame extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel1MousePressed
 
     /**
      * @param args the command line arguments

@@ -4,6 +4,13 @@
  */
 package cafe;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 /**
  *
  * @author HP
@@ -13,8 +20,24 @@ public class AllProductsFrame extends javax.swing.JFrame {
     /**
      * Creates new form AllProductsFrame
      */
+    int xx,xy;
+    Dao dao = new Dao ();
+    DefaultTableModel model; 
     public AllProductsFrame() {
         initComponents();
+    }
+    
+    private void tableProduct(){
+        dao.getAllProducts(jTable2);
+        model = (DefaultTableModel) jTable2.getModel();
+        jTable2.setRowHeight(100);
+        jTable2.setShowGrid(true);
+        jTable2.setGridColor(Color.black);
+        jTable2.setBackground(Color.white);
+        jTable2.setSelectionBackground(Color.gray);
+        jTable2.setModel(model);
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.getColumnModel().getColumn(3).setCellRenderer(new AllProductsFrame.ImageRenderer());
     }
 
     /**
@@ -34,6 +57,17 @@ public class AllProductsFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(158, 111, 78));
 
@@ -106,12 +140,46 @@ public class AllProductsFrame extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_jLabel4MouseClicked
 
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - xx, y - xy);
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+            for (double i = 0.1; i <= 1.0; i += 0.1) {
+            String s = "" + i;
+            float f = Float.parseFloat(s);
+            this.setOpacity(f);
+            try {
+                Thread.sleep(40);
+                
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AllProductsFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+   public class ImageRenderer extends DefaultTableCellRenderer{
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
+            JLabel jL = new JLabel ();
+            byte [] bytes = (byte[]) value;
+            ImageIcon imageicon = new ImageIcon (new ImageIcon(bytes).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+            jL.setIcon(imageicon);
+            return jL;
+        }
+
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -154,4 +222,3 @@ public class AllProductsFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
-}
