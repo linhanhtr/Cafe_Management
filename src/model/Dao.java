@@ -91,7 +91,21 @@ public class Dao {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    
+    public int getMaxRowApaymentTable(){
+        int row = 0;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("select max(pid) from payment");
+            while (rs.next()) {
+                row = rs.getInt(1);
+                
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Dao.class.getname()).log(Level.SEVERE, null, ex);
+        }
+        
+        return row + 1;
+    }
     
 }
 
