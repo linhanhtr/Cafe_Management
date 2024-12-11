@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import model.Dao;
 import model.Product;
 
 /**
@@ -186,8 +187,8 @@ public class AddProduct extends javax.swing.JFrame {
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         // TODO add your handling code here:
-        xx = evt.getX();
-        xy = evt.getY();
+        int xx = evt.getX();
+        int xy = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
@@ -227,16 +228,14 @@ public class AddProduct extends javax.swing.JFrame {
         try {
           Product product = new Product();
             product.setName(jTextField1.getText().trim());
-            product.setPrice(Double.parseDoubles(jTextField3.getText().trim()));
+            product.setPrice(Double.parseDouble(jTextField3.getText().trim()));
             product.setImage(Files.readAllBytes(this.file.toPath()));
             if (dao.insertProduct(product)) {
                 JOptionPane.showMessageDialog(null, "Product added successfully..");
                 clear();
             } else {
                 JOptionPane.showMessageDialog(null, "Failed!!", "Warning", 2);  
-        }  catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "" + e, "Warning", 2);
-                }
+            }  
         } catch (IOException ex) {
             Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -276,10 +275,8 @@ public class AddProduct extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddProduct().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new AddProduct().setVisible(true);
         });
     }
 
