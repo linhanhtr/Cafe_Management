@@ -140,5 +140,33 @@ public class Dao {
         }
         return subTotal;
     }
+    
+    public void getProductsFromCart(JTable table) {
+        int cid = getMaxRowACartTable();
+        String sql = "select * from cart where cid = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cid);
+            rs = ps.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            Object[] row;
+
+            while (rs.next()) {
+                row = new Object[6];
+                row[0] = rs.getInt(1);
+                row[1] = rs.getInt(2);
+                row[2] = rs.getString(3);
+                row[3] = rs.getInt(4);
+                row[4] = rs.getDouble(5);
+                row[5] = rs.getDouble(6);
+                model.addRow(row);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
 
