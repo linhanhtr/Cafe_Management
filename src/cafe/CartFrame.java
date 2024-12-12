@@ -5,13 +5,18 @@
 package cafe;
 
 import java.awt.Color;
+import java.awt.print.PrinterException;
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Calculate;
 import model.Dao;
+import model.Payment;
 
 /**
  *
@@ -22,7 +27,6 @@ public class CartFrame extends javax.swing.JFrame {
     /**
      * Creates new form CartFrame
      */
-    
     int xx, xy, rowIndex;
     Dao dao = new Dao();
     DefaultTableModel model;
@@ -30,12 +34,12 @@ public class CartFrame extends javax.swing.JFrame {
     LocalDate currentDate = LocalDate.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-dd");
     Calculate calculate = new Calculate();
-    
+
     public CartFrame() {
         initComponents();
         init();
     }
-    
+
     private void init() {
         jTextField6.setText(String.valueOf(dao.getMaxRowApaymentTable()));
         jTextField4.setText(currentDate.format(formatter));
@@ -45,16 +49,16 @@ public class CartFrame extends javax.swing.JFrame {
         jTextField7.setText(String.valueOf(calculate.getTotal()));
         tableProduct();
     }
-    
-    private void tableProduct () {
-    dao.getProductsFromCart(jTable2);
-    model = (DefaultTableModel) jTable2.getModel ();
-    jTable2.setRowHeight (40);
-    jTable2.setShowGrid (true);
-    jTable2.setGridColor (Color.black);
-    jTable2.setBackground (Color.white);
-    jTable2.setSelectionBackground (Color.gray);
-    jTable2.setModel (model);
+
+    private void tableProduct() {
+        dao.getProductsFromCart(jTable2);
+        model = (DefaultTableModel) jTable2.getModel();
+        jTable2.setRowHeight(40);
+        jTable2.setShowGrid(true);
+        jTable2.setGridColor(Color.black);
+        jTable2.setBackground(Color.white);
+        jTable2.setSelectionBackground(Color.gray);
+        jTable2.setModel(model);
     }
 
     /**
@@ -247,7 +251,7 @@ public class CartFrame extends javax.swing.JFrame {
         jPanel2.add(jTextField9);
         jTextField9.setBounds(30, 410, 240, 30);
 
-        jButton4.setBackground(new java.awt.Color(204, 204, 255));
+        jButton4.setBackground(new java.awt.Color(204, 204, 204));
         jButton4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton4.setText("Payment");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -304,14 +308,74 @@ public class CartFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField9ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        model = (DefaultTableModel) jTable2.getModel();
+        String proName = "";
+        String proId = "";
+        for (int i = 0; i < model.getRowCount(); i++) {
+            proId += model.getValueAt(i, 1).toString() + ", ";
+            proName += model.getValueAt(i, 1).toString() + ", ";
+        }
+
+        int pid = dao.getMaxRowApaymentTable();
+        String cName = jTextField9.getText().trim();
+        double t = Double.parseDouble(jTextField7.getText().trim());
+
+        Payment payment = new Payment;
+        payment.setPid(pid);
+        payment.setcName(cName);
+        payment.setProId(proId);
+        payment.setProName(proName);
+        payment.setTotal(t);
+        payment.setDate(jTextField4.getText().trim());
+        if (check()) {
+            if (dao.insertPayment(payment)) {
+                JOptionPane.showMessageDialog(this, "Payment success");
+                int cid = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+                dao.deleteCart(cid);
+
+                int x = JOptionPane.showMessageDialog(this, "Do you want to print the receipt?", "Print", JOptionPane.YES_NO_OPTION, 0);
+                if (x == JOptionPane.YES_NO_OPTION) {
+                    try {
+                        MessageFormat header = new MessageFormat("***Royal Cafe***" + " Customer Name:" + cName + " " + "Total: " + t);
+                        MessageFormat footer = new MessageFormat("Page{0, number, integer}");
+                        jTable2.print(JTable.PrintMode.FIT_WIDTH, header,);
+                        setVisible(false);
+
+                    } catch (PrinterException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
+                } else {
+                    setVisible(false);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Payment Failed!", "Warning", 2);
+            }
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    public boolean check() {
+        if (jTextField4.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Customer name is required", "Warning", 2);
+            return false;
+        }
+        if (jTextField1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Cash is required", "Warning", 2);
+            return false;
+        }
+
+        double change = Double.parseDouble(jTextField8.getText().trim());
+        if (change < 0.0) {
+            JOptionPane.showMessageDialog(this, "Not enough cash entered", "Warning", 2);
+            return false;
+        }
+
+        return true;
+    }
     private void jPanel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MousePressed
         // TODO add your handling code here:
         xx = evt.getX();
         xy = evt.getY();
-        
+
     }//GEN-LAST:event_jPanel2MousePressed
 
     private void jPanel2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseDragged
@@ -329,7 +393,7 @@ public class CartFrame extends javax.swing.JFrame {
             this.setOpacity(f);
             try {
                 Thread.sleep(40);
-                
+
             } catch (InterruptedException ex) {
                 Logger.getLogger(CartFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
