@@ -91,6 +91,37 @@ public class Dao {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    public int getMaxRowOrderTable () {
+        int row = 0;
+        try {
+            st = con.createStatement () ;
+            rs = st.executeQuery ("select max (cid) from cart");
+            while (rs.next ()) {
+                row = rs.getInt (1);
+            }
+        } catch (Exception ex) {
+        Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return row + 1;
+    }
+    
+    public boolean isProductExist (int cid, int pid) {
+        try {
+            ps = con.prepareStatement ("select * from cart where cid = ? and pid = ?");
+            ps.setInt (1, cid);
+            ps. setInt (2, pid);
+            rs = ps.executeQuery () ;
+            if (rs.next ()) {
+                return true;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
     public int getMaxRowApaymentTable(){
         int row = 0;
         try {
@@ -101,7 +132,7 @@ public class Dao {
                 
             }
         } catch (Exception ex) {
-            Logger.getLogger(Dao.class.getname()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return row + 1;
@@ -168,5 +199,47 @@ public class Dao {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-}
-
+        
+    public boolean insertCart(Cart cart){
+            String sql = "insert into cart (cid, pid, pName, qty, price, total values (?,?,?,?,?,?)";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cart.getId());
+            ps.setInt(2, cart.getPid());
+            ps.setString(3, cart.getpName());
+            ps.setInt(4, cart.getQty());
+            ps.setDouble(5, cart.getPrice());
+            ps.setDouble(6, cart.getTotal());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            return false;
+        }
+        }
+    }
+    
+    public boolean insertPayment (Payment payment) {
+        String sql = "insert into cart (pid, cName, proid, , price, total, pdate) values (?,?,?,?,?,?)";
+        try {
+        ps = con.prepareStatement (sql);
+        ps.setInt (1, payment.getPid ());
+        ps.setString (2, payment.getcName () );
+        ps.setString (3, payment.getProId ());
+        ps.setString (4, payment.getProName () );
+        ps.setDouble (5, payment.getTotal () );
+        ps.setString (6, payment.getDate () ) ;
+        return ps.executeUpdate () > 0;
+        
+        } catch (Exception ex) {
+        return false;
+        }
+    }
+    
+    public boolean deleteCart (int cid) {
+        try {
+            ps = con.prepareStatement ("delete from cart where cid = ?");
+            ps.setInt (1, cid);
+            return ps.executeUpdate () > 0;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
