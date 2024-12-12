@@ -199,7 +199,7 @@ public class Dao {
         }
         
         public boolean insertCart(Cart cart){
-            String sql = "insert into cart (cid, pid, pName, qty, price, total valuse (?,?,?,?,?,?)";
+            String sql = "insert into cart (cid, pid, pName, qty, price, total values (?,?,?,?,?,?)";
         try {
             ps = con.prepareStatement(sql);
             ps.setInt(1, cart.getId());
