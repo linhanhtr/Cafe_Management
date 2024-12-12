@@ -184,33 +184,6 @@ public class AllProductsFrame extends javax.swing.JFrame {
 
     }
 }
-    /**
-     * @param args the command line arguments
-     */
-    public void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
-            }
-        }
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-        Logger.getLogger(AllProductsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-            AllProductsFrame frame = new AllProductsFrame();
-            frame.setVisible(true); // Thiết lập hiển thị
-            frame.tableProduct();   // Make sure to call tableProduct() to populate the table
-        }
-    });
-}
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel4;

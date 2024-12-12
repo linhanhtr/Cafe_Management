@@ -163,6 +163,11 @@ public class CartFrame extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
         jPanel2.add(jTextField1);
         jTextField1.setBounds(30, 480, 240, 30);
 
@@ -237,6 +242,11 @@ public class CartFrame extends javax.swing.JFrame {
         jTextField7.setBounds(30, 340, 240, 30);
 
         jTextField8.setBackground(new java.awt.Color(204, 204, 204));
+        jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField8KeyReleased(evt);
+            }
+        });
         jPanel2.add(jTextField8);
         jTextField8.setBounds(30, 550, 240, 30);
 
@@ -400,39 +410,39 @@ public class CartFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CartFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CartFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CartFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CartFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jTextField8KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyReleased
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CartFrame().setVisible(true);
-            }
-        });
+    }//GEN-LAST:event_jTextField8KeyReleased
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        cash(); 
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    public void cash();
+        try {
+            double cash = Double.parseDouble(jTextField1.getText().trim());
+            double total = Double.parseDouble(jTextField7.getText().trim());
+            double change = (cash - total);
+            jTextField8.setText(String.valueOf(change));
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Not enough cash entered", "Warning", 2);
+}
+    public boolean check() {
+        if (jTextField9.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Customer name is required", "Warning", 2);
+            return false;
+        }
+        if (jTextField1.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Cash is required", "Warning", 2);
+            return false;
+        }
+        double change = Double.parseDouble(jTextField8.getText().trim());
+        if (change < 0.0) {
+            JOptionPane.showMessageDialog(this, "Not enough cash entered", "Warning", 2);
+            return false;
+        }
+
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
