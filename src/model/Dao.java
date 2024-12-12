@@ -107,5 +107,38 @@ public class Dao {
         return row + 1;
     }
     
+    
+    public int getMaxRowACartTable(){
+        int row = 0;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("select max(cid) from cart");
+            while (rs.next()) {
+                row = rs.getInt(1);
+                
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return row;
+    }
+    
+    public double subTotal(){
+        double subTotal = 0.0;
+        int cid = getMaxRowACartTable();
+        
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("Select sum(total) as 'total' from cart where cid = '" + cid + "'");
+
+            if(rs.next()){
+                subTotal = rs.getDouble(1);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(Dao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        return subTotal;
+    }
 }
 
