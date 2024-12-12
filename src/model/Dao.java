@@ -62,10 +62,10 @@ public class Dao {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public boolean update(Product product) {
         String sql = "update product set name = ?, price = ?, where id = ?";
-        
+
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, product.getName());
@@ -76,7 +76,7 @@ public class Dao {
             return false;
         }
     }
-    
+
     public boolean delete(Product product) {
         try {
             ps = con.prepareStatement("delete from product where id = ?");
@@ -90,49 +90,48 @@ public class Dao {
     public void getallProducts(JTable jTable2) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    public int getMaxRowApaymentTable(){
+
+    public int getMaxRowApaymentTable() {
         int row = 0;
         try {
             st = con.createStatement();
             rs = st.executeQuery("select max(pid) from payment");
             while (rs.next()) {
                 row = rs.getInt(1);
-                
+
             }
         } catch (Exception ex) {
             Logger.getLogger(Dao.class.getname()).log(Level.SEVERE, null, ex);
         }
-        
+
         return row + 1;
     }
-    
-    
-    public int getMaxRowACartTable(){
+
+    public int getMaxRowACartTable() {
         int row = 0;
         try {
             st = con.createStatement();
             rs = st.executeQuery("select max(cid) from cart");
             while (rs.next()) {
                 row = rs.getInt(1);
-                
+
             }
         } catch (Exception ex) {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return row;
     }
-    
-    public double subTotal(){
+
+    public double subTotal() {
         double subTotal = 0.0;
         int cid = getMaxRowACartTable();
-        
+
         try {
             st = con.createStatement();
             rs = st.executeQuery("Select sum(total) as 'total' from cart where cid = '" + cid + "'");
 
-            if(rs.next()){
+            if (rs.next()) {
                 subTotal = rs.getDouble(1);
             }
         } catch (SQLException ex) {
@@ -140,7 +139,7 @@ public class Dao {
         }
         return subTotal;
     }
-    
+
     public void getProductsFromCart(JTable table) {
         int cid = getMaxRowACartTable();
         String sql = "select * from cart where cid = ?";
@@ -168,5 +167,50 @@ public class Dao {
             Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-}
 
+    public int getMaxRowAOrderTable() {
+        int row = 0;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery("select max(id) from order");
+            while (rs.next()) {
+                row = rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Dao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        }
+        return row + 1;
+    }
+
+    public boolean isProdcutExist(int cid, int pid) {
+        try {
+            ps = con.prepareStatement("Select * from cart where cid = ? and pid = ?");
+            ps = setInt(1, cid);
+            ps = setInt(2, pid);
+            rs = ps.executeQuery()
+            if (rs.next()) {
+                return true;
+            }catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Dao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+            return false;
+        }
+        
+        public boolean insertCart(Cart cart){
+            String sql = "insert into cart (cid, pid, pName, qty, price, total valuse (?,?,?,?,?,?)";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cart.getId());
+            ps.setInt(2, cart.getPid());
+            ps.setString(3, cart.getpName());
+            ps.setInt(4, cart.getQty());
+            ps.setDouble(5, cart.getPrice());
+            ps.setDouble(6, cart.getTotal());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            return false;
+        }
+        }
+    }

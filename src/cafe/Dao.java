@@ -4,10 +4,16 @@
  */
 package cafe;
 
+import model.Cart;
+
 /**
  *
  * @author tranlalinhanh
  */
 class Dao {
+
+    boolean insertCart(Cart cart) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

@@ -4,6 +4,19 @@
  */
 package cafe;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Image;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import model.Cart;
+
 /**
  *
  * @author HP
@@ -16,9 +29,39 @@ public class OrderFrame extends javax.swing.JFrame {
     int xx, xy;
     Dao dao = new Dao();
     DefaultTableModel model;
-    
+    rowIndex ;
+    private double  = 0.0, total = 0.0;
+
     public OrderFrame() {
         initComponents();
+        jTextField3.setText(String.valueOf(dao.getMaxRowAOrderTable()));
+        tableProduct();
+    }
+
+    private void tableProduct() {
+        dao.getAllProducts(jTable2);
+        model = (DefaultTableModel) jTable2.getModel();
+        jTable2.setRowHeight(100);
+        jTable2.setShowGrid(true);
+        jTable2.setGridColor(Color.black);
+        jTable2.setBackground(Color.white);
+        jTable2.setSelectionBackground(Color.gray);
+        jTable2.setModel(model);
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.getColumnModel().getColumn(3).setCellRenderer(new OrderFrame.ImageRenderer());
+    }
+
+    private class ImageRenderer extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JLabel jL = new JLabel();
+            byte[] bytes = (byte[]) value;
+            ImageIcon imageicon = new ImageIcon(new ImageIcon(bytes).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+            jL.setIcon(imageicon);
+            return jL;
+        }
+
     }
 
     /**
@@ -47,8 +90,18 @@ public class OrderFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(158, 111, 78));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(158, 111, 78));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jPanel1MousePressed(evt);
@@ -73,6 +126,11 @@ public class OrderFrame extends javax.swing.JFrame {
                 "Product ID", "Name", "Price", "Image"
             }
         ));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 26)); // NOI18N
@@ -216,20 +274,96 @@ public class OrderFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if(jTextField4.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please select a new product","Warning",2);
+        }else if(jTextField1.getText().isEmpty() || jTextField1.getText().equals("0")){
+             JOptionPane.showMessageDialog(this, "Product Quantity is required","Warning",2);
+        }else
+            try {
+                model = (DefaultTableModel) jTable2.getModel();
+                int cid = Integer.parseInt(jTextField3.getText().trim());
+                int qty = Integer.parseInt(jTextField1.getText().trim());
+                int proId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+                String pName = jTextField4.getText().trim();
+                price = Double.parseDouble(model.getValueAt(rowIndex, 2).toString());
+
+            if (!dao.isProductExist(cid, proId)){
+                Cart cart = new Cart();
+                cart.setId(cid);
+                cart.setPid(proId);
+                cart.pName(pName);
+                cart.setQty(qty);
+                cart.setPrice(price);
+                cart.setTotal(price * (double) qty);
+                total += price * (double) qty;
+                
+                jLabel1.setText(String.format("Total ($): "+ "%.2f", total));
+                if(dao.insertCart(cart)){
+                 JOptionPane.showMessageDialog(this, "Product Added");  
+                 clear();
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "This product already exists","Warning",2);
+            
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "" + e,"Warning",2);
+            }
+        
+        
+      }
+    
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
-
+ 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
         // TODO add your handling code here:
+        xx = evt.getX();
+        xy = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
 
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - xx, y - xy);
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        for (double i = 0.1; i <= 1.0; i += 0.1) {
+            String s = "" + i;
+            float f = Float.parseFloat(s);
+            this.setOpacity(f);
+            try {
+                Thread.sleep(40);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(OrderFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        model = (DefaultTableModel) jTable2.getModel();
+        int rowIndex = jTable2.getSelectedRow();
+        jTextField4.setText(model.getValueAt(rowIndex, 1).toString());
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void clear(){
+        jTextField4.setText(null);
+        jTextField1.setText("0");
+        jTable2.clearSelection();
+    
+    }
     /**
      * @param args the command line arguments
      */
