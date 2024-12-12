@@ -4,11 +4,14 @@
  */
 package cafe;
 
+import java.awt.Color;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import model.Calculate;
+import model.Dao;
 
 /**
  *
@@ -34,8 +37,24 @@ public class CartFrame extends javax.swing.JFrame {
     }
     
     private void init() {
-        jTextField6.setText(String.valueOf(dao.getMaxAPaymentTable()));
+        jTextField6.setText(String.valueOf(dao.getMaxRowApaymentTable()));
         jTextField4.setText(currentDate.format(formatter));
+        jTextField5.setText(String.valueOf(dao.subTotal()));
+        calculate.setSubtotal(Double.parseDouble(jTextField5.getText()));
+        jTextField3.setText(String.valueOf(calculate.getTax()));
+        jTextField7.setText(String.valueOf(calculate.getTotal()));
+        tableProduct();
+    }
+    
+    private void tableProduct () {
+    dao.getProductsFromCart(jTable2);
+    model = (DefaultTableModel) jTable2.getModel ();
+    jTable2.setRowHeight (40);
+    jTable2.setShowGrid (true);
+    jTable2.setGridColor (Color.black);
+    jTable2.setBackground (Color.white);
+    jTable2.setSelectionBackground (Color.gray);
+    jTable2.setModel (model);
     }
 
     /**
@@ -160,6 +179,7 @@ public class CartFrame extends javax.swing.JFrame {
         jPanel2.add(jLabel6);
         jLabel6.setBounds(30, 170, 63, 20);
 
+        jTextField3.setEditable(false);
         jTextField3.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.add(jTextField3);
         jTextField3.setBounds(30, 200, 240, 30);
@@ -168,6 +188,7 @@ public class CartFrame extends javax.swing.JFrame {
         jPanel2.add(jTextField4);
         jTextField4.setBounds(30, 120, 240, 30);
 
+        jTextField5.setEditable(false);
         jTextField5.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.add(jTextField5);
         jTextField5.setBounds(30, 270, 240, 30);
@@ -206,6 +227,7 @@ public class CartFrame extends javax.swing.JFrame {
         jPanel2.add(jTextField6);
         jTextField6.setBounds(30, 50, 240, 30);
 
+        jTextField7.setEditable(false);
         jTextField7.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.add(jTextField7);
         jTextField7.setBounds(30, 340, 240, 30);
