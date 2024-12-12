@@ -318,6 +318,12 @@ public class OrderFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        if(total != 0.0){
+            new CartFrame().setVisible(true);
+            setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(this, "You havent't purchased any product","Warning",2);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
  
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
