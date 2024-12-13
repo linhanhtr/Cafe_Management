@@ -19,6 +19,9 @@ import model.Product;
  * @author Dell
  */
 public class AddProduct extends javax.swing.JFrame {
+    public AddProduct() {
+        initComponents();
+    }    
 
     /**
      * Creates new form AddProduct
@@ -26,9 +29,6 @@ public class AddProduct extends javax.swing.JFrame {
     private File file;
     int xx, xy;
     Dao dao = new Dao();
-    public AddProduct() {
-        initComponents();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.

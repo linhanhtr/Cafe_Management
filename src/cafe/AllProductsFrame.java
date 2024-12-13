@@ -3,9 +3,10 @@ package cafe;
 /*
 
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+*/
+
 
 
 import javax.swing.table.DefaultTableModel;
@@ -20,16 +21,15 @@ import java.util.logging.Level;
  * @author HP
  */
 public class AllProductsFrame extends javax.swing.JFrame {
-
+public AllProductsFrame() {
+        initComponents();
+    }
     /**
      * Creates new form AllProductsFrame
      */
     int xx,xy;
     Dao dao = new Dao ();
     DefaultTableModel model; 
-    public AllProductsFrame() {
-        initComponents();
-    }
     
     private void tableProduct(){
         dao.getAllProducts(jTable2);
@@ -172,6 +172,18 @@ public class AllProductsFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+        private void setVisible(boolean b) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        private void setLocation(int i, int i0) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        private void setOpacity(float f) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
    public class ImageRenderer extends DefaultTableCellRenderer{
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
@@ -183,7 +195,7 @@ public class AllProductsFrame extends javax.swing.JFrame {
         }
 
     }
-}
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel4;

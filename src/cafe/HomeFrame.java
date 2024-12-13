@@ -7,6 +7,12 @@ package cafe;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import cafe.AddProductFrame;
+import cafe.ManageProductFrame;
+import cafe.AllProductsFrame;
+import cafe.OrderFrame;
+import cafe.ViewOrdersFrame;
+import cafe.StatisticFrame;
 
 /**
  *
@@ -150,28 +156,39 @@ public class HomeFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        new AddProductFrame().setVisible(true);
+        AddProductFrame addProductFrame = new AddProductFrame();
+        addProductFrame.setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new ManageProductsFrame().setVisible(true);
-        
+        ManageProductFrame manageProductFrame = new ManageProductFrame();
+        manageProductFrame.setVisible(true); 
+        this.dispose();  
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        new AllProductsFrame().setVisible(true);
+        AllProductsFrame allProductsFrame = new AllProductsFrame();
+        allProductsFrame.setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        new OrderFrame().setVisible(true);
+        OrderFrame orderFrame = new OrderFrame();
+        orderFrame.setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        new ViewOrdersFrame().setVisible(true);
+        ViewOrdersFrame viewOrdersFrame = new ViewOrdersFrame();
+        viewOrdersFrame.setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new StatisticFrame().setVisible(true);
+        StatisticFrame statisticFrame = new StatisticFrame();
+        statisticFrame.setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     
@@ -187,7 +204,7 @@ public class HomeFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
                     Date date = new Date();
-                    SimpleDateFormat tf = new SimpleDateFormat("h:mm:ss aa")
+                    SimpleDateFormat tf = new SimpleDateFormat("h:mm:ss aa");
                     SimpleDateFormat df = new SimpleDateFormat("EEEE, yyyy-MM-dd");
                     String time = df.format(date);
                     jLabel3.setText(time.split("")[0]);
@@ -213,4 +230,5 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
 }

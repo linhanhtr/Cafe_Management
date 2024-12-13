@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Calculate;
-import model.Dao;
 import model.Payment;
 
 /**
@@ -326,11 +325,11 @@ public class CartFrame extends javax.swing.JFrame {
             proName += model.getValueAt(i, 1).toString() + ", ";
         }
 
-        int pid = dao.getMaxRowApaymentTable();
+        int pid = (int) dao.getMaxRowApaymentTable();
         String cName = jTextField9.getText().trim();
         double t = Double.parseDouble(jTextField7.getText().trim());
 
-        Payment payment = new Payment;
+        Payment payment = new Payment();
         payment.setPid(pid);
         payment.setcName(cName);
         payment.setProId(proId);

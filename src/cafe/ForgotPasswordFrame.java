@@ -13,25 +13,27 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.*;
-    private void setLocation(int i, int i0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 /**
  *
  * @author My-Laptop
  */
-public class ForgotPasswordFrame extends javax.swing.JFrame {
-
-    /**
-     * Creates new form ForgotPasswordFrame
-     */
+    public class ForgotPasswordFrame extends javax.swing.JFrame {
     int xx, xy;
     Color notEdit = new Color(204, 204, 204);
     Color edit = new Color(255, 255, 255);
     AdminDao dao = new AdminDao();
 
+        @Override
+        public void setLocation(int x, int y) {
+            // Gọi phương thức setLocation của lớp cha
+            super.setLocation(x, y);
+        }
+
+    /**
+     * Creates new form ForgotPasswordFrame
+     */
+    
     public ForgotPasswordFrame() {
-        initComponents();
         jTextField7.setBackground(notEdit);
         jTextField8.setBackground(notEdit);
         jPasswordField1.setBackground(notEdit);
