@@ -1,11 +1,12 @@
+package model;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
 
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+
+
 
 /**
  *
@@ -32,7 +36,7 @@ public class Dao {
             ps.setString(1, p.getName());
             ps.setDouble(2, p.getPrice());
             ps.setBytes(3, p.getImage());
-            return ps.excuteUpdate() > 0;
+            return ps.executeUpdate() > 0;
         } catch (Exception ex) {
             return false;
         }
@@ -91,7 +95,6 @@ public class Dao {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public int getMaxRowApaymentTable() {
     
     public int getMaxRowOrderTable () {
         int row = 0;
@@ -221,17 +224,17 @@ public class Dao {
             ps = con.prepareStatement("Select * from cart where cid = ? and pid = ?");
             ps = setInt(1, cid);
             ps = setInt(2, pid);
-            rs = ps.executeQuery()
+            rs = ps.executeQuery();
             if (rs.next()) {
                 return true;
-            }catch (Exception ex) {
+            }
+        }catch (Exception ex) {
             java.util.logging.Logger.getLogger(Dao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
             return false;
-        }
+    }
         
-        public boolean insertCart(Cart cart){
         
     public boolean insertCart(Cart cart){
             String sql = "insert into cart (cid, pid, pName, qty, price, total values (?,?,?,?,?,?)";
@@ -247,20 +250,23 @@ public class Dao {
         } catch (SQLException ex) {
             return false;
         }
-        }
+    }
+
+    private PreparedStatement setInt(int i, int pid) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     public boolean insertPayment (Payment payment) {
         String sql = "insert into cart (pid, cName, proid, , price, total, pdate) values (?,?,?,?,?,?)";
         try {
-        ps = con.prepareStatement (sql);
-        ps.setInt (1, payment.getPid ());
-        ps.setString (2, payment.getcName () );
-        ps.setString (3, payment.getProId ());
-        ps.setString (4, payment.getProName () );
-        ps.setDouble (5, payment.getTotal () );
-        ps.setString (6, payment.getDate () ) ;
-        return ps.executeUpdate () > 0;
+            ps = con.prepareStatement (sql);
+            ps.setInt (1, payment.getPid ());
+            ps.setString (2, payment.getcName () );
+            ps.setString (3, payment.getProId ());
+            ps.setString (4, payment.getProName () );
+            ps.setDouble (5, payment.getTotal () );
+            ps.setString (6, payment.getDate () ) ;
+            return ps.executeUpdate () > 0;
         
         } catch (Exception ex) {
         return false;
@@ -275,6 +281,7 @@ public class Dao {
         } catch (Exception ex) {
             return false;
         }
+    }
 
     public void getPaymentDetails(JTable table) {
         String sql = "select * from payment order by pid desc";
@@ -309,7 +316,7 @@ public class Dao {
         st = con.createStatement();
         rs = st.executeQuery("select count(*) as 'total' from product");
         if(rs.next()){
-            total = rs.getDouble(1);
+            total = (int) rs.getDouble(1);
         }
     } catch (SQLException ex) {
         Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
@@ -322,6 +329,7 @@ public class Dao {
 
       try {
         st = con.createStatement();
+            String date = null;
         rs = st.executeQuery("select sum(total) as 'total' from product from payment where pdate = '"+ date +"'");
         if(rs.next()){
             total = rs.getInt(1);
@@ -347,3 +355,5 @@ public class Dao {
         return total;
     }
 }
+
+

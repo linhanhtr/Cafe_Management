@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import model.MyConnection;
+import cafe.ForgotPasswordFrame;
 
 /**
  *
@@ -69,7 +70,7 @@ public class AdminDao {
         }
             return false;
     }
-}
+
     public boolean login(String username, String password){
         try {
             ps = con.prepareStatement("select * from admin where username = ? and password = ?");
@@ -110,7 +111,8 @@ public class AdminDao {
             if (rs.next()) {
                 String oldAns = rs.getString(5);
                 if (newAns.equals(oldAns)) {
-                return true;
+                    return true;
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,7 +127,8 @@ public class AdminDao {
             ps.setString(1, password);
             ps.setString(2, username);
             return ps.executeUpdate() > 0;
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             return false;
         }
     }
+}

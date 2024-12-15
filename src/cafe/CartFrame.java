@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Calculate;
 import model.Payment;
+import model.Dao;
 
 /**
  *
@@ -104,6 +105,7 @@ public class CartFrame extends javax.swing.JFrame {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -342,12 +344,12 @@ public class CartFrame extends javax.swing.JFrame {
                 int cid = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
                 dao.deleteCart(cid);
 
-                int x = JOptionPane.showMessageDialog(this, "Do you want to print the receipt?", "Print", JOptionPane.YES_NO_OPTION, 0);
+                int x = JOptionPane.showConfirmDialog(this, "Do you want to print the receipt?", "Print", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (x == JOptionPane.YES_NO_OPTION) {
                     try {
                         MessageFormat header = new MessageFormat("***Royal Cafe***" + " Customer Name:" + cName + " " + "Total: " + t);
                         MessageFormat footer = new MessageFormat("Page{0, number, integer}");
-                        jTable2.print(JTable.PrintMode.FIT_WIDTH, header,);
+                        boolean printed = jTable2.print(JTable.PrintMode.FIT_WIDTH, null, null);
                         setVisible(false);
 
                     } catch (PrinterException ex) {
@@ -417,32 +419,17 @@ public class CartFrame extends javax.swing.JFrame {
         cash(); 
     }//GEN-LAST:event_jTextField1KeyReleased
 
-    public void cash();
+    public void cash(){
         try {
             double cash = Double.parseDouble(jTextField1.getText().trim());
             double total = Double.parseDouble(jTextField7.getText().trim());
             double change = (cash - total);
             jTextField8.setText(String.valueOf(change));
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Not enough cash entered", "Warning", 2);
-}
-    public boolean check() {
-        if (jTextField9.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Customer name is required", "Warning", 2);
-            return false;
-        }
-        if (jTextField1.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Cash is required", "Warning", 2);
-            return false;
-        }
-        double change = Double.parseDouble(jTextField8.getText().trim());
-        if (change < 0.0) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Not enough cash entered", "Warning", 2);
-            return false;
         }
-
-        return true;
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;

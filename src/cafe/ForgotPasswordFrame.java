@@ -4,15 +4,13 @@
  */
 package cafe;
 
-import cafe.LoginFrame;
-import cafe.SignUpFrame;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.*;
+import model.AdminDao;
 /**
  *
  * @author My-Laptop
@@ -34,13 +32,15 @@ import javax.swing.*;
      */
     
     public ForgotPasswordFrame() {
-        jTextField7.setBackground(notEdit);
+        initComponents();
+        /*jTextField7.setBackground(notEdit);
         jTextField8.setBackground(notEdit);
         jPasswordField1.setBackground(notEdit);
         jPasswordField1.setEnabled(false);
         jTextField8.setEditable(false);
         jTextField7.setEditable(false);
         jButton3.setEnabled(false);
+        */
     }
 
     /**
@@ -70,6 +70,7 @@ import javax.swing.*;
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -227,7 +228,6 @@ import javax.swing.*;
 }           } else {
                 JOptionPane.showMessageDialog(this, "Security answer didn't match");
             }                    
-        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -260,27 +260,21 @@ import javax.swing.*;
             float f = Float.parseFloat(s);
             JFrame frame = new JFrame();
             frame.setOpacity(0.5f);
-            try {
-                Thread.sleep(40);
-
-            } catch (InterruptedException ex) {
-                Logger.getLogger(SignUpFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }//GEN-LAST:event_formWindowOpened
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
     // TODO add your handling code here:
-    int xx = evt.getX();
-    int xy = evt.getY();
+        xx = evt.getX();
+        xy = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
         // TODO add your handling code here:
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-    int xx = 0;
-    int xy = 0;
+        xx = 0;
+        xy = 0;
         this.setLocation(x - xx, y - xy);
     }//GEN-LAST:event_jPanel1MouseDragged
 
@@ -289,9 +283,8 @@ import javax.swing.*;
         if (jTextField6.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Username is required", "Warning", 2);
         } else {
-            AdminDao dao = new AdminDao(); 
             if (dao.getSecurity(jTextField6.getText())) {
-                Color edit = null;
+                edit = null;
                 jTextField7.setBackground(edit);
                 jTextField8.setBackground(edit);
                 jPasswordField1.setBackground(edit);
@@ -340,4 +333,4 @@ import javax.swing.*;
     public static javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
-
+}

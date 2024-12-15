@@ -9,7 +9,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import cafe.AddProductFrame;
 import cafe.ManageProductFrame;
-import cafe.AllProductsFrame;
+import cafe.AllProducts;
 import cafe.OrderFrame;
 import cafe.ViewOrdersFrame;
 import cafe.StatisticFrame;
@@ -51,6 +51,7 @@ public class HomeFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -156,20 +157,20 @@ public class HomeFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        AddProductFrame addProductFrame = new AddProductFrame();
-        addProductFrame.setVisible(true); 
+        AddProduct addProduct = new AddProduct();
+        addProduct.setVisible(true); 
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ManageProductFrame manageProductFrame = new ManageProductFrame();
-        manageProductFrame.setVisible(true); 
+        ManageProducts manageProducts = new ManageProducts();
+        manageProducts.setVisible(true); 
         this.dispose();  
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        AllProductsFrame allProductsFrame = new AllProductsFrame();
-        allProductsFrame.setVisible(true); 
+        AllProducts allProducts = new AllProducts();
+        allProducts.setVisible(true); 
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -193,28 +194,38 @@ public class HomeFrame extends javax.swing.JFrame {
 
     
     private void setDateTime() {
-        new Thread(new Runnable() {
-            @Override
+     new Thread(new Runnable() {
+         @Override
+         public void run() {
+             while(true) {
+                 try {
+                     Thread.sleep(1000);
+                 } catch (Exception ex) {
+                     JOptionPane.showMessageDialog(null, ex.getMessage());
+                 }
+
+                 Date date = new Date();
+                 SimpleDateFormat tf = new SimpleDateFormat("hh:mm:ss aa"); // Time format
+                 SimpleDateFormat df = new SimpleDateFormat("EEEE, yyyy-MM-dd"); // Date format
+                 String time = tf.format(date);
+                 String dateText = df.format(date);
+
+                 // Set time and date labels
+                 jLabel3.setText(time);  // Set the time label (ex: 08:30:45 PM)
+                 jLabel5.setText(dateText);  // Set the date label (ex: Friday, 2024-12-13)
+             }
+         }
+     }).start();
+ }
+    public class Main {
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                while(true) {
-                    try {
-                        Thread.sleep(1000);
-                        
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
-                    }
-                    Date date = new Date();
-                    SimpleDateFormat tf = new SimpleDateFormat("h:mm:ss aa");
-                    SimpleDateFormat df = new SimpleDateFormat("EEEE, yyyy-MM-dd");
-                    String time = df.format(date);
-                    jLabel3.setText(time.split("")[0]);
-                    jLabel4.setText(time.split("")[1]);
-                    jLabel5.setText(df.format(date));
-                }
+                new HomeFrame().setVisible(true); // Mở HomeFrame
             }
-        }).start();
+        });
     }
-    
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

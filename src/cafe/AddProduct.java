@@ -21,7 +21,11 @@ import model.Product;
 public class AddProduct extends javax.swing.JFrame {
     public AddProduct() {
         initComponents();
-    }    
+    } 
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b); 
+    }
 
     /**
      * Creates new form AddProduct

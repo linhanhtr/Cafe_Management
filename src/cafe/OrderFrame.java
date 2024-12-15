@@ -4,6 +4,7 @@
  */
 package cafe;
 
+import cafe.CartFrame;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
@@ -16,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.Cart;
+import model.Dao;
 
 /**
  *
@@ -29,8 +31,8 @@ public class OrderFrame extends javax.swing.JFrame {
     int xx, xy;
     Dao dao = new Dao();
     DefaultTableModel model;
-    rowIndex ;
-    private double  = 0.0, total = 0.0;
+    int rowIndex;
+    private double total = 0.0;
 
     public OrderFrame() {
         initComponents();
@@ -50,6 +52,10 @@ public class OrderFrame extends javax.swing.JFrame {
         jTable2.getTableHeader().setReorderingAllowed(false);
         jTable2.getColumnModel().getColumn(3).setCellRenderer(new OrderFrame.ImageRenderer());
     }
+
+        private void clear() {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
 
     private class ImageRenderer extends DefaultTableCellRenderer {
 
@@ -90,6 +96,7 @@ public class OrderFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(158, 111, 78));
+        setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -285,44 +292,41 @@ public class OrderFrame extends javax.swing.JFrame {
                 int qty = Integer.parseInt(jTextField1.getText().trim());
                 int proId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
                 String pName = jTextField4.getText().trim();
-                price = Double.parseDouble(model.getValueAt(rowIndex, 2).toString());
+                double price = Double.parseDouble(model.getValueAt(rowIndex, 2).toString());
 
-            if (!dao.isProductExist(cid, proId)){
-                Cart cart = new Cart();
-                cart.setId(cid);
-                cart.setPid(proId);
-                cart.pName(pName);
-                cart.setQty(qty);
-                cart.setPrice(price);
-                cart.setTotal(price * (double) qty);
-                total += price * (double) qty;
-                
-                jLabel1.setText(String.format("Total ($): "+ "%.2f", total));
-                if(dao.insertCart(cart)){
-                 JOptionPane.showMessageDialog(this, "Product Added");  
-                 clear();
+                if (!dao.isProductExist(cid, proId)){
+                    Cart cart = new Cart();
+                    cart.setId(cid);
+                    cart.setPid(proId);
+                    cart.pName(pName);
+                    cart.setQty(qty);
+                    cart.setPrice(price);
+                    cart.setTotal(price * (double) qty);
+                    total += price * (double) qty;
+
+                    jLabel1.setText(String.format("Total ($): "+ "%.2f", total));
+                    if(dao.insertCart(cart)){
+                     JOptionPane.showMessageDialog(this, "Product Added");  
+                     clear();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "This product already exists","Warning",2);
                 }
-            }else{
-                JOptionPane.showMessageDialog(this, "This product already exists","Warning",2);
-            
                 
-            } catch (Exception e) {
+            }catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "" + e,"Warning",2);
             }
         
-        
-      }
-    
-        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        total = 0;
         // TODO add your handling code here:
         if(total != 0.0){
             new CartFrame().setVisible(true);
             setVisible(false);
         }else{
-            JOptionPane.showMessageDialog(this, "You havent't purchased any product","Warning",2);
+            JOptionPane.showMessageDialog(null, "You havent't purchased any product","Warning",2);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
  
@@ -364,12 +368,6 @@ public class OrderFrame extends javax.swing.JFrame {
         jTextField4.setText(model.getValueAt(rowIndex, 1).toString());
     }//GEN-LAST:event_jTable2MouseClicked
 
-    private void clear(){
-        jTextField4.setText(null);
-        jTextField1.setText("0");
-        jTable2.clearSelection();
-    
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;

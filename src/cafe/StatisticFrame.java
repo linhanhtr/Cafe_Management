@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Dao;
+import model.AdminDao;
 
 /**
  *
@@ -28,13 +30,13 @@ public class StatisticFrame extends javax.swing.JFrame {
     
     public StatisticFrame() {
         initComponents();
-        init();
+        //init();
     }
     
     public void init(){
         int totalProducts = dao.totalProducts();
         jLabel2.setText(String.valueOf(totalProducts));
-        jLabel3.setText(String.valueOf(dao.todayRevenue(date)));
+        jLabel3.setText(String.valueOf(dao.todayRevenue()));
         jLabel5.setText(String.valueOf(dao.totalRevenue()));
         jLabel6.setText(String.valueOf(adminDao.getMaxRowAdminTable()));
         
@@ -68,6 +70,7 @@ public class StatisticFrame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -301,10 +304,9 @@ public class StatisticFrame extends javax.swing.JFrame {
             try {
                 Thread.sleep(40);
             } catch (InterruptedException ex) {
-                Logger.getLogger(StatisticFrame.ViewOrdersFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StatisticFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-    }          
+        }          
     }//GEN-LAST:event_formWindowOpened
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
