@@ -3,24 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Cafe_Management/src/cafe/ManageProductFrame.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/Public.java</file>
-            <file>file:/D:/Cafe_Management/src/model/Dao.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/All.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/ForgotPasswordFrame.java</file>
-            <file>file:/D:/Cafe_Management/src/Main.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/OrderFrame.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/AdminDao.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/SignUpFrame.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/CartFrame.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/Dao.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/AddProduct.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/StatisticFrame.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/ViewOrdersFrame.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/HomeFrame.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/ManageProducts.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/LoginFrame.java</file>
-            <file>file:/D:/Cafe_Management/src/cafe/AddProductFrame.java</file>
+            <file>file:/Users/tranlalinhanh/Desktop/Application_Program/cafe/Cafe_Management/src/cafe/AddProductFrame.java</file>
+            <file>file:/Users/tranlalinhanh/Desktop/Application_Program/cafe/Cafe_Management/src/cafe/AllProducts.java</file>
+            <file>file:/Users/tranlalinhanh/Desktop/Application_Program/cafe/Cafe_Management/src/cafe/OrderFrame.java</file>
+            <file>file:/Users/tranlalinhanh/Desktop/Application_Program/cafe/Cafe_Management/src/cafe/LoginFrame.java</file>
+            <file>file:/Users/tranlalinhanh/Desktop/Application_Program/cafe/Cafe_Management/src/cafe/Dao.java</file>
+            <file>file:/Users/tranlalinhanh/Desktop/Application_Program/cafe/Cafe_Management/src/model/MyConnection.java</file>
+            <file>file:/Users/tranlalinhanh/Desktop/Application_Program/cafe/Cafe_Management/src/model/Dao.java</file>
+            <file>file:/Users/tranlalinhanh/Desktop/Application_Program/cafe/Cafe_Management/src/cafe/HomeFrame.java</file>
+            <file>file:/Users/tranlalinhanh/Desktop/Application_Program/cafe/Cafe_Management/src/cafe/AddProduct.java</file>
         </group>
     </open-files>
 </project-private>

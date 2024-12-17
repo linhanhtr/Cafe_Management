@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 
 
+
 /**
  *
  * @author My-Laptop
@@ -30,45 +31,65 @@ public class Dao {
     ResultSet rs;
 
     public boolean insertProduct(Product p) {
-        String sql = "insert into product (name, price, image) values (?,?,?,?)";
-        try {
+    String sql;
+
+    try {
+        // Kiểm tra xem có hình ảnh hay không để quyết định câu SQL
+        if (p.getImage() != null) {
+            sql = "INSERT INTO product (name, price, image) VALUES (?, ?, ?)";
             ps = con.prepareStatement(sql);
             ps.setString(1, p.getName());
             ps.setDouble(2, p.getPrice());
-            ps.setBytes(3, p.getImage());
-            return ps.executeUpdate() > 0;
-        } catch (Exception ex) {
-            return false;
+            ps.setBytes(3, p.getImage()); // Gán giá trị hình ảnh
+        } else {
+            sql = "INSERT INTO product (name, price) VALUES (?, ?)";
+            ps = con.prepareStatement(sql);
+            ps.setString(1, p.getName());
+            ps.setDouble(2, p.getPrice());
         }
 
+        return ps.executeUpdate() > 0; // Kiểm tra thêm thành công
+    } catch (SQLException ex) {
+        Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        return false; // Trả về false nếu có lỗi xảy ra
+    } finally {
+        // Đảm bảo đóng PreparedStatement để giải phóng tài nguyên
+        try {
+            if (ps != null) ps.close();
+        } catch (SQLException e) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
+}
+
 
     public void getAllProducts(JTable table) {
-        String sql = "select * from product order by id desc";
-
+        String sql = "SELECT id, name, price FROM product"; // Loại bỏ cột image nếu không cần
         try {
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
             DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-            Object[] row;
+            model.setRowCount(0); // Xóa dữ liệu cũ
 
             while (rs.next()) {
-                row = new Object[4];
-                row[0] = rs.getInt(1);
-                row[1] = rs.getString(2);
-                row[2] = rs.getDouble(3);
-                row[3] = rs.getBytes(4);
+                Object[] row = {
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getDouble("price")
+                };
                 model.addRow(row);
             }
-        } catch (Exception ex) {
-            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
+
+
+
     public boolean update(Product product) {
-        String sql = "update product set name = ?, price = ?, where id = ?";
+        String sql = "update product set name = ?, price = ? where id = ?";
 
         try {
             ps = con.prepareStatement(sql);
@@ -208,7 +229,7 @@ public class Dao {
         int row = 0;
         try {
             st = con.createStatement();
-            rs = st.executeQuery("select max(id) from order");
+            rs = st.executeQuery("select max(oid) from `order`");
             while (rs.next()) {
                 row = rs.getInt(1);
             }
@@ -218,46 +239,33 @@ public class Dao {
         }
         return row + 1;
     }
-
-    public boolean isProdcutExist(int cid, int pid) {
-        try {
-            ps = con.prepareStatement("Select * from cart where cid = ? and pid = ?");
-            ps = setInt(1, cid);
-            ps = setInt(2, pid);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-        }catch (Exception ex) {
-            java.util.logging.Logger.getLogger(Dao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-            return false;
-    }
         
-        
-    public boolean insertCart(Cart cart){
-            String sql = "insert into cart (cid, pid, pName, qty, price, total values (?,?,?,?,?,?)";
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, cart.getId());
-            ps.setInt(2, cart.getPid());
-            ps.setString(3, cart.getpName());
-            ps.setInt(4, cart.getQty());
-            ps.setDouble(5, cart.getPrice());
-            ps.setDouble(6, cart.getTotal());
-            return ps.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            return false;
-        }
+       
+    public boolean insertCart(int cid, int pid, String pName, int qty, double price, double total) {
+    String sql = "INSERT INTO cart (cid, pid, pName, qty, price, total) VALUES (?, ?, ?, ?, ?, ?)";
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, cid);
+        ps.setInt(2, pid);
+        ps.setString(3, pName);
+        ps.setInt(4, qty);
+        ps.setDouble(5, price);
+        ps.setDouble(6, total);
+
+        return ps.executeUpdate() > 0;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false;
     }
+}
+
 
     private PreparedStatement setInt(int i, int pid) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     public boolean insertPayment (Payment payment) {
-        String sql = "insert into cart (pid, cName, proid, , price, total, pdate) values (?,?,?,?,?,?)";
+        String sql = "insert into  (pid, cName, proid, price, total, pdate) values (?,?,?,?,?,?)";
         try {
             ps = con.prepareStatement (sql);
             ps.setInt (1, payment.getPid ());
@@ -330,7 +338,7 @@ public class Dao {
       try {
         st = con.createStatement();
             String date = null;
-        rs = st.executeQuery("select sum(total) as 'total' from product from payment where pdate = '"+ date +"'");
+        rs = st.executeQuery("select sum(total) as 'total' from payment where pdate = '"+ date +"'");
         if(rs.next()){
             total = rs.getInt(1);
         }

@@ -16,9 +16,9 @@ import javax.swing.JOptionPane;
  */
 public class MyConnection {
     
-    public static final String username = "root"; //here you need to put your MySQL Workbench username
-    public static final String password = "polash"; //MySQL password
-    public static final String url = "jdbc:mysql://localhost:3306/cafe2";
+    public static final String username = "root"; // MySQL Workbench username
+    public static final String password = "tumotdenchin"; // MySQL password
+    public static final String url = "jdbc:mysql://127.0.0.1:3308/cafe"; // Correct URL for Docker container
     public static Connection con = null;
     
     public static Connection getConnection(){
@@ -30,5 +30,4 @@ public class MyConnection {
         }
         return con;
     }
-    
 }

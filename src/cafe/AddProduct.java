@@ -230,18 +230,31 @@ public class AddProduct extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         try {
-          Product product = new Product();
-            product.setName(jTextField1.getText().trim());
-            product.setPrice(Double.parseDouble(jTextField3.getText().trim()));
-            product.setImage(Files.readAllBytes(this.file.toPath()));
-            if (dao.insertProduct(product)) {
-                JOptionPane.showMessageDialog(null, "Product added successfully..");
-                clear();
+            Product product = new Product();
+        
+        // Lấy dữ liệu từ giao diện
+            product.setName(jTextField1.getText().trim()); // Lấy tên sản phẩm
+            product.setPrice(Double.parseDouble(jTextField3.getText().trim())); // Lấy giá sản phẩm
+        
+        // Không bắt buộc hình ảnh - chỉ đọc nếu file không null
+            if (this.file != null) {
+                product.setImage(Files.readAllBytes(this.file.toPath()));
             } else {
-                JOptionPane.showMessageDialog(null, "Failed!!", "Warning", 2);  
-            }  
+                product.setImage(null); // Không có hình ảnh thì set null
+            }
+
+        // Gọi phương thức insertProduct để lưu vào database
+            if (dao.insertProduct(product)) {
+                JOptionPane.showMessageDialog(null, "Product added successfully.");
+                clear(); // Làm sạch giao diện sau khi thêm thành công
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to add product!", "Warning", 2);
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Invalid price format! Please enter a valid number.", "Warning", 2);
         } catch (IOException ex) {
             Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error reading the image file.", "Error", 2);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

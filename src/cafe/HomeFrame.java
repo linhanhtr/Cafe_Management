@@ -159,37 +159,37 @@ public class HomeFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         AddProduct addProduct = new AddProduct();
         addProduct.setVisible(true); 
-        this.dispose();
+        this.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ManageProducts manageProducts = new ManageProducts();
         manageProducts.setVisible(true); 
-        this.dispose();  
+        this.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         AllProducts allProducts = new AllProducts();
         allProducts.setVisible(true); 
-        this.dispose();
+        this.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         OrderFrame orderFrame = new OrderFrame();
         orderFrame.setVisible(true); 
-        this.dispose();
+        this.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         ViewOrdersFrame viewOrdersFrame = new ViewOrdersFrame();
         viewOrdersFrame.setVisible(true); 
-        this.dispose();
+        this.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         StatisticFrame statisticFrame = new StatisticFrame();
         statisticFrame.setVisible(true); 
-        this.dispose();
+        this.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     

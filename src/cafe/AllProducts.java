@@ -20,6 +20,7 @@ import model.Dao;
 public class AllProducts extends javax.swing.JFrame {
     public AllProducts() {
         initComponents();
+        dao.getAllProducts(jTable2);
     }
     /**
      * Creates new form AllProductsFrame
@@ -87,7 +88,7 @@ public class AllProducts extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Price", "Image"
+                "id", "name", "price", "image"
             }
         ));
         jScrollPane2.setViewportView(jTable2);

@@ -37,21 +37,32 @@ public class OrderFrame extends javax.swing.JFrame {
     public OrderFrame() {
         initComponents();
         jTextField3.setText(String.valueOf(dao.getMaxRowAOrderTable()));
+        initData();
+    }
+    private void initData(){
+        
         tableProduct();
     }
-
     private void tableProduct() {
-        dao.getAllProducts(jTable2);
-        model = (DefaultTableModel) jTable2.getModel();
-        jTable2.setRowHeight(100);
-        jTable2.setShowGrid(true);
-        jTable2.setGridColor(Color.black);
-        jTable2.setBackground(Color.white);
-        jTable2.setSelectionBackground(Color.gray);
-        jTable2.setModel(model);
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jTable2.getColumnModel().getColumn(3).setCellRenderer(new OrderFrame.ImageRenderer());
+    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+    model.setRowCount(0); // Xóa toàn bộ dữ liệu cũ trong bảng JTable
+    
+    // Gọi dữ liệu từ database
+    dao.getAllProducts(jTable2);
+
+    // Tùy chỉnh JTable
+    jTable2.setRowHeight(100);
+    jTable2.setShowGrid(true);
+    jTable2.setGridColor(Color.black);
+    jTable2.setBackground(Color.white);
+    jTable2.setSelectionBackground(Color.gray);
+
+    // Ẩn cột hình ảnh tạm thời nếu không cần dùng
+    if (jTable2.getColumnModel().getColumnCount() > 3) { // Cột hình ảnh nằm ở vị trí thứ 4
+        jTable2.getColumnModel().removeColumn(jTable2.getColumnModel().getColumn(3));
     }
+}
+
 
         private void clear() {
             throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -320,14 +331,29 @@ public class OrderFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        total = 0;
-        // TODO add your handling code here:
-        if(total != 0.0){
-            new CartFrame().setVisible(true);
-            setVisible(false);
-        }else{
-            JOptionPane.showMessageDialog(null, "You havent't purchased any product","Warning",2);
+         int selectedRow = jTable2.getSelectedRow(); // Lấy hàng được chọn trên bảng sản phẩm
+
+    if (selectedRow != -1) { // Kiểm tra có chọn hàng hay không
+        try {
+            int cid = Integer.parseInt(jTextField1.getText().trim()); // Lấy Cart ID từ TextField
+            int pid = Integer.parseInt(jTable2.getValueAt(selectedRow, 0).toString()); // Cột Product ID
+            String pName = jTable2.getValueAt(selectedRow, 1).toString(); // Cột Product Name
+            double price = Double.parseDouble(jTable2.getValueAt(selectedRow, 2).toString()); // Cột Price
+            int qty = Integer.parseInt(jTextField1.getText().trim()); // Lấy số lượng từ TextField
+            double total = price * qty; // Tính tổng giá tiền
+
+            // Thêm dữ liệu vào bảng cart trong database
+            if (dao.insertCart(cid, pid, pName, qty, price, total)) {
+                JOptionPane.showMessageDialog(null, "Product added to cart!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to add product!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Invalid input! Check the quantity or Cart ID.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
+    } else {
+        JOptionPane.showMessageDialog(null, "Please select a product to add to cart!", "Warning", JOptionPane.WARNING_MESSAGE);
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
  
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
