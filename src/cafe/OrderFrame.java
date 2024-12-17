@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Cart;
 import model.Dao;
 
+
 /**
  *
  * @author HP
@@ -326,8 +327,7 @@ public class OrderFrame extends javax.swing.JFrame {
                 
             }catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "" + e,"Warning",2);
-            }
-        
+            }            
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
