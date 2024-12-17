@@ -244,7 +244,7 @@ public class Dao {
     public boolean insertCart(int cid, int pid, String pName, int qty, double price, double total) {
     String sql = "INSERT INTO cart (cid, pid, pName, qty, price, total) VALUES (?, ?, ?, ?, ?, ?)";
     try {
-        PreparedStatement ps = con.prepareStatement(sql);
+        ps = con.prepareStatement(sql);
         ps.setInt(1, cid);
         ps.setInt(2, pid);
         ps.setString(3, pName);
@@ -252,11 +252,11 @@ public class Dao {
         ps.setDouble(5, price);
         ps.setDouble(6, total);
 
-        return ps.executeUpdate() > 0;
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        return false;
+        return ps.executeUpdate() > 0; // Trả về true nếu insert thành công
+    } catch (SQLException e) {
+        Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, e);
     }
+    return false;
 }
 
 

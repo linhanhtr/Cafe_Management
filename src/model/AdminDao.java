@@ -26,18 +26,18 @@ public class AdminDao {
     ResultSet rs;
     
     public int getMaxRowAdminTable() {
-        int row = 0;
-        try{
-            st = con.createStatement();
-            rs = st.executeQuery("select max(id) from admin");
-            while(rs.next()){
-                row = rs.getInt(1);
+        int maxRow = 0;
+    String sql = "SELECT MAX(id) FROM admin"; // Truy vấn lấy ID lớn nhất
+    try {
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            maxRow = rs.getInt(1); // Lấy giá trị ID lớn nhất
         }
-    } catch (Exception ex) {
-        Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
-
+    } catch (Exception e) {
+        Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, e);
     }
-    return row + 1;
+    return maxRow + 1;
     }
 
     public boolean isAdminNameExist (String username){
@@ -54,22 +54,23 @@ public class AdminDao {
         return false;
     }
     
-    public boolean insert(Admin admin) {
-        String sql = "insert into admin (id, username, password, s_ques, ans) values (?,?,?,?,?)";
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, admin.getId());
-            ps.setString(2, admin.getUsername());
-            ps.setString(3, admin.getPassword());
-            ps.setString(4, admin.getsQues());
-            ps.setString(5, admin.getAns());
-            
-            return ps.executeUpdate() > 0;
-        } catch (Exception ex) {
-            Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            return false;
+  public boolean insert(Admin admin) {
+    String sql = "INSERT INTO admin (username, password, s_ques, ans) VALUES (?, ?, ?, ?)";
+    try {
+        ps = con.prepareStatement(sql);
+        
+        ps.setString(1, admin.getUsername());
+        ps.setString(2, admin.getPassword());
+        ps.setString(3, admin.getsQues());
+        ps.setString(4, admin.getAns());
+
+        return ps.executeUpdate() > 0; // Trả về true nếu insert thành công
+    } catch (Exception ex) {
+        Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
     }
+    return false;
+}
+
 
     public boolean login(String username, String password){
         try {

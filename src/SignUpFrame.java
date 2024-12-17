@@ -4,10 +4,12 @@
  */
 package cafe;
 
+import cafe.LoginFrame;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import model.Admin;
+import model.AdminDao;
 /**
  *
  * @author Dell
@@ -22,16 +24,7 @@ public class SignUpFrame extends javax.swing.JFrame {
 
     public SignUpFrame(){
         initComponents();
-        try {
-            // Try to fetch the max row count from AdminDao
-            maxRow = dao.getMaxRowAdminTable();
-            TextField1.setText(String.valueOf(maxRow));
-        } catch (UnsupportedOperationException e) {
-            // Handle the exception and set a default value
-            maxRow = 0;
-            TextField1.setText("0");
-            JOptionPane.showMessageDialog(this, "Error: Admin table row retrieval not implemented.", "Warning", JOptionPane.WARNING_MESSAGE);
-        }
+        
     }
 
     /**
@@ -47,8 +40,6 @@ public class SignUpFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         Label4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        Label3 = new javax.swing.JLabel();
-        TextField1 = new javax.swing.JTextField();
         Label5 = new javax.swing.JLabel();
         TextField2 = new javax.swing.JTextField();
         Label6 = new javax.swing.JLabel();
@@ -110,45 +101,37 @@ public class SignUpFrame extends javax.swing.JFrame {
         jLabel1.setText("SIGN UP");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 55, 360, -1));
 
-        Label3.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        Label3.setForeground(new java.awt.Color(255, 255, 255));
-        Label3.setText("ID:");
-        jPanel1.add(Label3, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 106, 120, -1));
-
-        TextField1.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel1.add(TextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 138, 290, 30));
-
         Label5.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         Label5.setForeground(new java.awt.Color(255, 255, 255));
         Label5.setText("Security Question:");
-        jPanel1.add(Label5, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 324, 142, -1));
+        jPanel1.add(Label5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 142, -1));
 
         TextField2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 TextField2KeyTyped(evt);
             }
         });
-        jPanel1.add(TextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 212, 290, 30));
+        jPanel1.add(TextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 290, 30));
 
         Label6.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         Label6.setForeground(new java.awt.Color(255, 255, 255));
         Label6.setText("Username:");
-        jPanel1.add(Label6, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 180, 120, -1));
+        jPanel1.add(Label6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 120, -1));
 
         Label7.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         Label7.setForeground(new java.awt.Color(255, 255, 255));
         Label7.setText("Password:");
-        jPanel1.add(Label7, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 254, 120, -1));
-        jPanel1.add(TextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 426, 290, 30));
+        jPanel1.add(Label7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 120, -1));
+        jPanel1.add(TextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 290, 30));
 
         Label8.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         Label8.setForeground(new java.awt.Color(255, 255, 255));
         Label8.setText("Answer:");
-        jPanel1.add(Label8, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 394, 142, -1));
+        jPanel1.add(Label8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 142, -1));
 
         jComboBox1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "What is your favorite color?", "What is your family name?", "What is your first school name?", "What is your pet name?", "What was your first car?", " " }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 356, 290, -1));
+        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 290, -1));
 
         jButton3.setBackground(new java.awt.Color(237, 226, 219));
         jButton3.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
@@ -158,7 +141,7 @@ public class SignUpFrame extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 474, 115, 36));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 450, 115, 36));
 
         jButton4.setBackground(new java.awt.Color(237, 226, 219));
         jButton4.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
@@ -168,10 +151,10 @@ public class SignUpFrame extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 474, 115, 36));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 115, 36));
 
         jPasswordField1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jPanel1.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 286, 290, -1));
+        jPanel1.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 290, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/hide.png"))); // NOI18N
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -179,7 +162,7 @@ public class SignUpFrame extends javax.swing.JFrame {
                 jLabel10MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 290, -1, -1));
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 220, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/visible.png"))); // NOI18N
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -187,7 +170,7 @@ public class SignUpFrame extends javax.swing.JFrame {
                 jLabel2MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 290, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 220, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -197,7 +180,10 @@ public class SignUpFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -219,28 +205,29 @@ public class SignUpFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        if(isEmpty()) {
-            String username = TextField2.getText().trim();
-            if(! dao.isAdminNameExist(username)){
-                Admin admin = new Admin();
-                admin.setId(dao.getMaxRowAdminTable());
-                admin.setUsername(username);
-                admin.setPassword(String.valueOf(jPasswordField1.getPassword()));
-                admin.setsQues(jComboBox1.getSelectedItem().toString());
-                admin.setAns(TextField4.getText().trim());
-                
-                if(dao.insert(admin)) {
-                    JOptionPane.showMessageDialog(this, "Admin Successuly Created...");
-                    new LoginFrame().setVisible(true);
-                    setVisible(false);
-                } else{
-                    JOptionPane.showMessageDialog(this, "Failed!", "Warning!", 2);
+        // Lấy thông tin từ các trường nhập liệu
+        
+        String username = TextField2.getText().trim();
+        String password = String.valueOf(jPasswordField1.getPassword());
+        String sQues = jComboBox1.getSelectedItem().toString();
+        String ans = TextField4.getText().trim();
 
-                }
-            } else{
-                JOptionPane.showMessageDialog(this, "Username already exists", "Warning!", 2);
-            }
+        // Tạo đối tượng Admin
+        Admin admin = new Admin();
+        admin.setUsername(username);
+        admin.setPassword(password);
+        admin.setsQues(sQues);
+        admin.setAns(ans);
+
+        // Thực hiện insert vào database
+        if (dao.insert(admin)) {
+            JOptionPane.showMessageDialog(this, "Sign Up Successful!");
+            new LoginFrame().setVisible(true); // Chuyển sang frame Login
+            this.dispose(); // Đóng frame hiện tại
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to Sign Up! Username or ID might already exist.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
@@ -297,34 +284,31 @@ public class SignUpFrame extends javax.swing.JFrame {
 
     
     public boolean isEmpty(){
-        if (TextField2.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Username is required", "Warning", 2);
-            return false;
-        } 
-        if (String.valueOf(jPasswordField1.getPassword()).isEmpty()){
-            JOptionPane.showMessageDialog(this, "Password is required", "Warning", 2);
-            return false;
-        }
-        if (jComboBox1.getSelectedIndex() == -1){
-            JOptionPane.showMessageDialog(this, "Security question is required", "Warning", 2);
-            return false;
-        }
-        if (TextField4.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Answer question is required", "Warning", 2);
-            return false;
-        }
-        
-        return true;
+        if (TextField2.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Username is required", "Warning", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    if (String.valueOf(jPasswordField1.getPassword()).isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Password is required", "Warning", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    if (jComboBox1.getSelectedIndex() == -1) {
+        JOptionPane.showMessageDialog(this, "Security question is required", "Warning", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    if (TextField4.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Answer is required", "Warning", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Label3;
     private javax.swing.JLabel Label4;
     private javax.swing.JLabel Label5;
     private javax.swing.JLabel Label6;
     private javax.swing.JLabel Label7;
     private javax.swing.JLabel Label8;
-    private javax.swing.JTextField TextField1;
     private javax.swing.JTextField TextField2;
     private javax.swing.JTextField TextField4;
     private javax.swing.JButton jButton3;
@@ -337,5 +321,5 @@ public class SignUpFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     // End of variables declaration//GEN-END:variables
-
 }
+

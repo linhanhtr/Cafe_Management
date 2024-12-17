@@ -155,7 +155,7 @@ public class OrderFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 26)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Total ($): 0.0");
+        jLabel1.setText("Total:");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -293,41 +293,10 @@ public class OrderFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(jTextField4.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please select a new product","Warning",2);
-        }else if(jTextField1.getText().isEmpty() || jTextField1.getText().equals("0")){
-             JOptionPane.showMessageDialog(this, "Product Quantity is required","Warning",2);
-        }else
-            try {
-                model = (DefaultTableModel) jTable2.getModel();
-                int cid = Integer.parseInt(jTextField3.getText().trim());
-                int qty = Integer.parseInt(jTextField1.getText().trim());
-                int proId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
-                String pName = jTextField4.getText().trim();
-                double price = Double.parseDouble(model.getValueAt(rowIndex, 2).toString());
 
-                if (!dao.isProductExist(cid, proId)){
-                    Cart cart = new Cart();
-                    cart.setId(cid);
-                    cart.setPid(proId);
-                    cart.pName(pName);
-                    cart.setQty(qty);
-                    cart.setPrice(price);
-                    cart.setTotal(price * (double) qty);
-                    total += price * (double) qty;
-
-                    jLabel1.setText(String.format("Total ($): "+ "%.2f", total));
-                    if(dao.insertCart(cart)){
-                     JOptionPane.showMessageDialog(this, "Product Added");  
-                     clear();
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(this, "This product already exists","Warning",2);
-                }
-                
-            }catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "" + e,"Warning",2);
-            }            
+            CartFrame cartFrame = new CartFrame();
+    cartFrame.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

@@ -111,7 +111,7 @@ public class ManageProducts extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Price ($):");
+        jLabel2.setText("Price:");
 
         jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
 

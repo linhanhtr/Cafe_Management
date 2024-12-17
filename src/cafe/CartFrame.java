@@ -152,7 +152,7 @@ public class CartFrame extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Cash ($):");
+        jLabel2.setText("Cash:");
         jPanel2.add(jLabel2);
         jLabel2.setBounds(30, 450, 120, 20);
 
@@ -211,13 +211,13 @@ public class CartFrame extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Sub Total ($):");
+        jLabel8.setText("Sub Total:");
         jPanel2.add(jLabel8);
         jLabel8.setBounds(30, 240, 120, 20);
 
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Total ($):");
+        jLabel9.setText("Total:");
         jPanel2.add(jLabel9);
         jLabel9.setBounds(30, 310, 120, 20);
 
@@ -229,7 +229,7 @@ public class CartFrame extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Change ($):");
+        jLabel11.setText("Change:");
         jPanel2.add(jLabel11);
         jLabel11.setBounds(30, 520, 120, 20);
 

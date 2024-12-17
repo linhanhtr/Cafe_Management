@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import cafe.ForgotPasswordFrame;
-
+import model.AdminDao;
 /**
  *
  * @author HP
@@ -196,14 +196,21 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        String username = jTextField6.getText();
-        String password = new String(jPasswordField1.getPassword());
+        String username = jTextField6.getText().trim(); // .trim() để loại bỏ khoảng trắng
+        String password = new String(jPasswordField1.getPassword()).trim();
 
-    if (username.equals("admin") && password.equals("1234")) { // Thay bằng kiểm tra của bạn
+    // Tạo một instance của AdminDao
+        AdminDao dao = new AdminDao();
+    
+    // Gọi hàm login từ AdminDao để kiểm tra username và password
+        if (dao.login(username, password)) {
+        // Nếu đúng, chuyển sang HomeFrame
+        JOptionPane.showMessageDialog(this, "Login Successful!");
         HomeFrame homeFrame = new HomeFrame();
-        homeFrame.setVisible(true); // Hiển thị HomeFrame
-        this.dispose(); // Đóng LoginFrame
+        homeFrame.setVisible(true);
+        this.dispose(); // Đóng LoginFrame hiện tại
     } else {
+        // Nếu sai, hiển thị thông báo lỗi
         JOptionPane.showMessageDialog(this, "Invalid username or password!", "Login Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_jButton3ActionPerformed
