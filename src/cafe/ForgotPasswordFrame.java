@@ -99,7 +99,7 @@ import model.AdminDao;
                 jLabel4MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 28, 28));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 28, 28));
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 28)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -216,18 +216,19 @@ import model.AdminDao;
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        if(isEmpty()) { 
-            String username = jTextField6.getText();
-            String ans = jTextField8.getText();
-            if (dao.getAns(username, ans)) {
-                String password = String.valueOf(jPasswordField1.getPassword());
-                dao.setPassword(username, password);
-                 JOptionPane.showMessageDialog(this, "Password update");
-                 new LoginFrame().setVisible(true);
-                 setVisible(false);
-}           } else {
-                JOptionPane.showMessageDialog(this, "Security answer didn't match");
-            }                    
+ if (!isEmpty()) { // Nếu không có trường nào trống
+    String username = jTextField6.getText().trim();
+    String ans = jTextField8.getText().trim();
+    if (dao.getAns(username, ans)) { // Kiểm tra câu trả lời bảo mật
+        String password = String.valueOf(jPasswordField1.getPassword()).trim();
+        dao.setPassword(username, password);
+        JOptionPane.showMessageDialog(this, "Password updated successfully!");
+        new LoginFrame().setVisible(true); // Quay về LoginFrame
+        this.dispose(); // Đóng ForgotPasswordFrame
+    } else {
+        JOptionPane.showMessageDialog(this, "Security answer didn't match", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}              
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -303,16 +304,19 @@ import model.AdminDao;
     }//GEN-LAST:event_jTextField8ActionPerformed
 
     public boolean isEmpty() {
-    JTextField TextField4 = new JTextField();
-        if (TextField4.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Answer question is required", "Warning", 2);
-            return false;
-        }
-        if (String.valueOf(jPasswordField1.getPassword()).isEmpty()) {
-            JOptionPane.showMessageDialog(null, "New password is required", "Warning", 2);
-            return false;
-        }
-        return true;
+        if (jTextField6.getText().trim().isEmpty()) { // Kiểm tra username
+        JOptionPane.showMessageDialog(null, "Username is required", "Warning", JOptionPane.WARNING_MESSAGE);
+        return true; // Kết thúc hàm, trả về true nếu username trống
+    }
+    if (jTextField8.getText().trim().isEmpty()) { // Kiểm tra answer
+        JOptionPane.showMessageDialog(null, "Answer question is required", "Warning", JOptionPane.WARNING_MESSAGE);
+        return true; // Kết thúc hàm, trả về true nếu answer trống
+    }
+    if (String.valueOf(jPasswordField1.getPassword()).trim().isEmpty()) { // Kiểm tra new password
+        JOptionPane.showMessageDialog(null, "New password is required", "Warning", JOptionPane.WARNING_MESSAGE);
+        return true; // Kết thúc hàm, trả về true nếu password trống
+    }
+    return false;
     }            
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

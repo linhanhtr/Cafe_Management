@@ -106,26 +106,24 @@ public class AdminDao {
 
     public boolean getAns(String username, String newAns){
         try {
-            ps = con.prepareStatement("select * from admin where username = ? ");
-            ps.setString(1, username);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                String oldAns = rs.getString(5);
-                if (newAns.equals(oldAns)) {
-                    return true;
-                }
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
+        String sql = "SELECT ans FROM admin WHERE username = ?";
+        ps = con.prepareStatement(sql);
+        ps.setString(1, username);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            String correctAnswer = rs.getString("ans"); // Lấy answer từ database
+            return correctAnswer.equals(newAns); // So sánh với câu trả lời nhập vào
         }
-            
-        return false;
+    } catch (Exception ex) {
+        Logger.getLogger(AdminDao.class.getName()).log(Level.SEVERE, null, ex);
     }
-    public boolean setPassword(String username, String password) {
+    return false;
+    }
+    public boolean setPassword(String username, String newPassword) {
         String sql = "update admin set password = ? where username = ?";
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, password);
+            ps.setString(1, newPassword);
             ps.setString(2, username);
             return ps.executeUpdate() > 0;
         } catch (Exception ex) {
