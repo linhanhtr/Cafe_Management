@@ -319,69 +319,84 @@ public class CartFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField9ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        model = (DefaultTableModel) jTable2.getModel();
-        String proName = "";
-        String proId = "";
-        for (int i = 0; i < model.getRowCount(); i++) {
-            proId += model.getValueAt(i, 1).toString() + ", ";
-            proName += model.getValueAt(i, 1).toString() + ", ";
+    // Lấy dữ liệu từ JTable và các trường thông tin
+    model = (DefaultTableModel) jTable2.getModel();
+    String proName = "";
+    String proId = "";
+    int totalQuantity = 0; // Tổng số lượng sản phẩm
+    
+    // Lặp qua tất cả các hàng trong JTable để lấy thông tin
+    for (int i = 0; i < model.getRowCount(); i++) {
+        proId += model.getValueAt(i, 1).toString() + ", "; // ID sản phẩm
+        proName += model.getValueAt(i, 2).toString() + ", "; // Tên sản phẩm
+        
+        // Kiểm tra giá trị Quantity có rỗng không
+        String quantityStr = model.getValueAt(i, 3).toString().trim();
+        if (!quantityStr.isEmpty()) {
+            totalQuantity += Integer.parseInt(quantityStr); // Tính tổng số lượng sản phẩm
+        } else {
+            totalQuantity += 0; // Gán giá trị mặc định nếu rỗng
         }
+    }
 
-        int pid = (int) dao.getMaxRowApaymentTable();
-        String cName = jTextField9.getText().trim();
-        double t = Double.parseDouble(jTextField7.getText().trim());
+    // Chuẩn bị dữ liệu Payment
+    int pid = dao.getMaxRowApaymentTable(); // Lấy ID thanh toán mới
+    String cName = jTextField9.getText().trim(); // Tên khách hàng
+    String totalStr = jTextField7.getText().trim(); // Tổng tiền
+    String date = jTextField4.getText().trim(); // Ngày thanh toán
+    
+    // Kiểm tra giá trị Total
+    if (totalStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Total amount is required!", "Warning", JOptionPane.WARNING_MESSAGE);
+        return; // Dừng thực thi nếu total rỗng
+    }
 
-        Payment payment = new Payment();
-        payment.setPid(pid);
-        payment.setcName(cName);
-        payment.setProId(proId);
-        payment.setProName(proName);
-        payment.setTotal(t);
-        payment.setDate(jTextField4.getText().trim());
-        if (check()) {
-            if (dao.insertPayment(payment)) {
-                JOptionPane.showMessageDialog(this, "Payment success");
-                int cid = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
-                dao.deleteCart(cid);
+    double t = Double.parseDouble(totalStr); // Chuyển Total thành double
 
-                int x = JOptionPane.showConfirmDialog(this, "Do you want to print the receipt?", "Print", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (x == JOptionPane.YES_NO_OPTION) {
-                    try {
-                        MessageFormat header = new MessageFormat("***Royal Cafe***" + " Customer Name:" + cName + " " + "Total: " + t);
-                        MessageFormat footer = new MessageFormat("Page{0, number, integer}");
-                        boolean printed = jTable2.print(JTable.PrintMode.FIT_WIDTH, null, null);
-                        setVisible(false);
+    Payment payment = new Payment();
+    payment.setPid(pid);
+    payment.setcName(cName);
+    payment.setProId(proId);
+    payment.setProName(proName);
+    payment.setTotal(t);
+    payment.setDate(date);
 
-                    } catch (PrinterException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
-                    }
-                } else {
-                    setVisible(false);
-                }
+    // Kiểm tra đầu vào
+    if (check()) {
+        if (dao.insertPayment(payment)) { // Thêm dữ liệu vào bảng Payment
+            if (dao.moveToStatistics(totalQuantity, t, date)) { // Thêm dữ liệu vào bảng Statistics
+                dao.clearCartTable(); // Xóa bảng Cart sau khi thanh toán
+                
+                JOptionPane.showMessageDialog(this, "Payment successful! Statistics updated.");
+                refreshCartTable(); // Làm mới bảng JTable
             } else {
-                JOptionPane.showMessageDialog(this, "Payment Failed!", "Warning", 2);
+                JOptionPane.showMessageDialog(this, "Failed to update Statistics!", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Payment Failed!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
+    }
+}
+
+// Làm mới JTable sau khi thanh toán
+private void refreshCartTable() {
+    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+    model.setRowCount(0); // Xóa tất cả các hàng trong bảng
+}
+
+// Kiểm tra dữ liệu đầu vào
+private boolean check() {
+    if (jTextField9.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Customer Name is required!", "Warning", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    if (jTextField7.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Total amount is required!", "Warning", JOptionPane.WARNING_MESSAGE);
+        return false;
+    }
+    return true;
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    public boolean check() {
-        if (jTextField4.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Customer name is required", "Warning", 2);
-            return false;
-        }
-        if (jTextField1.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Cash is required", "Warning", 2);
-            return false;
-        }
-
-        double change = Double.parseDouble(jTextField8.getText().trim());
-        if (change < 0.0) {
-            JOptionPane.showMessageDialog(this, "Not enough cash entered", "Warning", 2);
-            return false;
-        }
-
-        return true;
-    }
     private void jPanel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MousePressed
         // TODO add your handling code here:
         xx = evt.getX();

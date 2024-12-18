@@ -149,19 +149,17 @@ public class Dao {
     }
     
     public int getMaxRowApaymentTable(){
-        int row = 0;
-        try {
-            st = con.createStatement();
-            rs = st.executeQuery("select max(pid) from payment");
-            while (rs.next()) {
-                row = rs.getInt(1);
-
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        String sql = "SELECT IFNULL(MAX(pid), 0) + 1 AS next_pid FROM payment";
+    try {
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("next_pid");
         }
-
-        return row + 1;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return 1;
     }
 
     public int getMaxRowACartTable() {
@@ -265,20 +263,21 @@ public class Dao {
     }
     
     public boolean insertPayment (Payment payment) {
-        String sql = "insert into  (pid, cName, proid, price, total, pdate) values (?,?,?,?,?,?)";
+        String sql = "INSERT INTO payment (pid, cName, proid, pName, total, pdate) VALUES (?, ?, ?, ?, ?, ?)";
         try {
-            ps = con.prepareStatement (sql);
-            ps.setInt (1, payment.getPid ());
-            ps.setString (2, payment.getcName () );
-            ps.setString (3, payment.getProId ());
-            ps.setString (4, payment.getProName () );
-            ps.setDouble (5, payment.getTotal () );
-            ps.setString (6, payment.getDate () ) ;
-            return ps.executeUpdate () > 0;
-        
-        } catch (Exception ex) {
-        return false;
-        }
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, payment.getPid());
+            ps.setString(2, payment.getcName());
+            ps.setString(3, payment.getProId());
+            ps.setString(4, payment.getProName());
+            ps.setDouble(5, payment.getTotal());
+            ps.setString(6, payment.getDate());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+        ex.printStackTrace(); // In lỗi ra console
+    }
+    return false;
     }
     
     public boolean deleteCart (int cid) {
@@ -362,6 +361,30 @@ public class Dao {
         }
         return total;
     }
+    public boolean moveToStatistics(int totalQty, double totalAmount, String date) {
+        String sql = "INSERT INTO statistics (qty, total, date) VALUES (?, ?, ?)";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, totalQty);
+            ps.setDouble(2, totalAmount);
+            ps.setString(3, date);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+           }
+    }
+    public void clearCartTable() {
+        String sql = "DELETE FROM cart";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
 }
 
 
