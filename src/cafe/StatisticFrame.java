@@ -30,16 +30,33 @@ public class StatisticFrame extends javax.swing.JFrame {
     
     public StatisticFrame() {
         initComponents();
-        //init();
+        loadStatisticsData();
     }
     
     public void init(){
         int totalProducts = dao.totalProducts();
         jLabel2.setText(String.valueOf(totalProducts));
         jLabel3.setText(String.valueOf(dao.todayRevenue()));
-
-
     }
+    
+    private void loadStatisticsData() {
+    Dao dao = new Dao(); // Tạo đối tượng Dao để truy cập database
+    
+    // Hiển thị tổng sản phẩm (giả sử đã có hàm getTotalProducts)
+    jTextField9.setText(String.valueOf(dao.getTotalProducts()));
+
+     // Lấy doanh thu hôm nay
+    double todayRevenue = dao.getTodayRevenue();
+    jTextField10.setText(String.format("%.2f", todayRevenue)); // Hiển thị với 2 số thập phân
+
+    // Lấy tổng doanh thu
+    double totalRevenue = dao.getTotalRevenue();
+    jTextField12.setText(String.format("%.2f", totalRevenue)); // Hiển thị với 2 số thập phân
+
+    // Hiển thị tổng số admin (giả sử đã có hàm getTotalAdmin)
+    jTextField11.setText(String.valueOf(dao.getTotalAdmin()));
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,6 +127,7 @@ public class StatisticFrame extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Total Products");
 
+        jTextField9.setEditable(false);
         jTextField9.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         jTextField9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
@@ -152,6 +170,7 @@ public class StatisticFrame extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Today Revenue");
 
+        jTextField10.setEditable(false);
         jTextField10.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         jTextField10.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField10.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +209,7 @@ public class StatisticFrame extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Total Revenue");
 
+        jTextField12.setEditable(false);
         jTextField12.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         jTextField12.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField12.addActionListener(new java.awt.event.ActionListener() {
@@ -225,6 +245,7 @@ public class StatisticFrame extends javax.swing.JFrame {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Total Admin");
 
+        jTextField11.setEditable(false);
         jTextField11.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         jTextField11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField11.addActionListener(new java.awt.event.ActionListener() {

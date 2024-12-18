@@ -361,19 +361,22 @@ public class Dao {
         }
         return total;
     }
-    public boolean moveToStatistics(int totalQty, double totalAmount, String date) {
-        String sql = "INSERT INTO statistics (qty, total, date) VALUES (?, ?, ?)";
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, totalQty);
-            ps.setDouble(2, totalAmount);
-            ps.setString(3, date);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-           }
+    public boolean moveToStatistics(int qty, double total, String date) {
+        String sql = "INSERT INTO statistics (qty, total, date, revenue) VALUES (?, ?, ?, ?)";
+    try {
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, qty);          // Số lượng
+        ps.setDouble(2, total);     // Tổng tiền
+        ps.setString(3, date);      // Ngày
+        ps.setDouble(4, total);     // Revenue = total
+
+        return ps.executeUpdate() > 0; // Chèn thành công
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+    return false;
+}
+
     public void clearCartTable() {
         String sql = "DELETE FROM cart";
         try {
@@ -384,7 +387,61 @@ public class Dao {
         }
     }
 
+    public int getTotalProducts() {
+        String sql = "SELECT COUNT(*) FROM product";
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+            return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+    
+    public double getTodayRevenue() {
+    String sql = "SELECT SUM(revenue) AS todayRevenue FROM statistics WHERE date = CURDATE()";
+    try {
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getDouble("todayRevenue"); // Truy xuất alias của SUM(revenue)
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return 0;
+    }
 
+    public double getTotalRevenue() {
+    String sql = "SELECT SUM(revenue) AS totalRevenue FROM statistics";
+    try {
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getDouble("totalRevenue"); // Truy xuất alias của SUM(revenue)
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return 0;
+    }
+    
+    public int getTotalAdmin() {
+    String sql = "SELECT COUNT(*) FROM admin";
+    try {
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    } 
+    return 0;
+    }
 }
 
 
